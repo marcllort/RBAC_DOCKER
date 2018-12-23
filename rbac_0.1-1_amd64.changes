@@ -1,0 +1,34 @@
+Format: 1.8
+Date: Fri, 21 Dec 2018 12:35:32 +0000
+Source: rbac
+Binary: rbac
+Architecture: source all
+Version: 0.1-1
+Distribution: unstable
+Urgency: medium
+Maintainer: alex <alex@unknown>
+Changed-By: alex <alex@unknown>
+Description:
+ rbac       - <insert up to 60 chars description>
+Changes:
+ rbac (0.1-1) unstable; urgency=medium
+ .
+   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+Checksums-Sha1:
+ 24b72d9c26d1a6048eaae1f75a3ee26bf899daf8 764 rbac_0.1-1.dsc
+ ad5de61f3fdae2cfc600eb4db3a9d935aac45af4 13384 rbac_0.1.orig.tar.xz
+ 3e43d31050e6c03d68579e0bf5a29ff9db61f955 7688 rbac_0.1-1.debian.tar.xz
+ 4e112dfa9d6d2e52cc1d12a8a1894b3ddd2dd280 8248 rbac_0.1-1_all.deb
+ 82a36dee3627d7a5cda078deef3ab39907f79119 5282 rbac_0.1-1_amd64.buildinfo
+Checksums-Sha256:
+ e7b64e494ecb35616fb218dc28899e3a1567f870a0c4e08dbc9c4f1ee51e87a3 764 rbac_0.1-1.dsc
+ bb2ec8086270078c7bf7e4fe5fbb28298a0c9b1ebf54482a94b3c405ea7fbcd9 13384 rbac_0.1.orig.tar.xz
+ c62f8b43e135e2307626f9aeca5f3db70038f2d8a9cdea2c9d1345a6081c8d20 7688 rbac_0.1-1.debian.tar.xz
+ d1a3e64bea84ee8add66cac100129809237d8ce538bc1145b02ac51f8ade63e9 8248 rbac_0.1-1_all.deb
+ d6a67d80ff6a69c3bfed5e5ea34c1cb59fe9e439663caaf6ce047ea87534b19f 5282 rbac_0.1-1_amd64.buildinfo
+Files:
+ 47570c0a366f40d0b4fe1f862393f8f1 764 unknown optional rbac_0.1-1.dsc
+ 9a17770c9e8e03d929b6a27429cf1466 13384 unknown optional rbac_0.1.orig.tar.xz
+ ef495d65d3ee0930b25f249ee2c6a571 7688 unknown optional rbac_0.1-1.debian.tar.xz
+ 5ed8b1f187057dd11eccb02dc953af85 8248 unknown optional rbac_0.1-1_all.deb
+ 9a181abae3a79cb0fe598da4b5f2174f 5282 unknown optional rbac_0.1-1_amd64.buildinfo
