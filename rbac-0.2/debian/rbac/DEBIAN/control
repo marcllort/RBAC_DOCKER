@@ -2,7 +2,8 @@ Package: rbac
 Version: 0.2-1
 Architecture: all
 Maintainer: alex <alex@unknown>
-Installed-Size: 45
+Installed-Size: 49
+Depends: debconf (>= 0.5) | debconf-2.0
 Section: unknown
 Priority: optional
 Homepage: <insert the upstream URL, if relevant>
