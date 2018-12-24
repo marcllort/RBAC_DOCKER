@@ -179,4 +179,4 @@ creaDaemonEntorn
 #Crea el dimoni encarregat d'enviar el mail amb el request command
 creaDaemonMail
 
-
+export PATH=$PATH:/usr/bin/rbac/rbac
