@@ -1,17 +1,21 @@
 #!/bin/sh -e
 
-echo -n "Do you want to copy the files that are about to be overwritten? [yn] "
+echo -n "Do you want to copy the files that are about to be overwrite? [Y/N] "
+
 read like
+
 case "$like" in
-n*|N*)
-    echo "No"
-;;
-y*|Y*)
-echo "Where do you want to save them?"
-read save
-[ -d "/usr/bin/rbac" ] && echo "Copiyng files" && cp /usr/bin/rbac "$save" || echo "Error: The directory /usr/bin/rbac does not exist"
-;;
+    n*|N*)
+        echo "No"
+    ;;
+    y*|Y*)
+    echo "Where do you want to save them?"
+    read save
+    [ -d "/usr/bin/rbac" ] && echo "Copiyng files" && cp /usr/bin/rbac "$save" || echo "Error: The directory /usr/bin/rbac does not exist"
+    ;;
 esac
+
+
 
 echo "Which is the mail of the administrator of the system?"
 read mail
