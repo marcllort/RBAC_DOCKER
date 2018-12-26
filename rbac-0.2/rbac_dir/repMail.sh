@@ -11,14 +11,15 @@ function llegeixDirConfig()
                 ;;
 
             1)
-                MAIL="$line"
+                PORTroot="$line"
                 ;;
             
             2)
-                PORTroot="$line"
+                
+                PORTmail="$line"
                 ;;
             3)
-                PORTmail="$line"
+                MAIL="$line"
                 ;;
 
             *)
