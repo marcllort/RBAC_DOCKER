@@ -19,4 +19,4 @@ esac
 
 echo "Which is the mail of the administrator of the system?"
 read mail
-echo "$mail"
+echo "$mail" >> /users/configuracio
