@@ -7,7 +7,7 @@ function llegeixDirConfig()
 {
     if [ ! -f "$CONFIGBASE/configuracio" ]        #si no esta configuracio, entorn no existeix i cal crearlo
     then
-        echo "Fixer de configuració base inexistent"
+        echo "Fitxer de configuració base inexistent"
     fi
 
     i=0
@@ -18,14 +18,15 @@ function llegeixDirConfig()
                 ;;
 
             1)
-                MAIL="$line"
+                PORTroot="$line"
                 ;;
             
             2)
-                PORTroot="$line"
+                
+                PORTmail="$line"
                 ;;
             3)
-                PORTmail="$line"
+                MAIL="$line"
                 ;;
 
             *)

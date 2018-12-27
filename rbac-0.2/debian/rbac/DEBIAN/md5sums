@@ -1,11 +1,11 @@
 f67c700c8e8e1cc69902042a7ba1400b  usr/bin/rbac/rbac
-1af12ac3bd926c5d3f55b606b813cc0b  usr/bin/rbac/rbac_dir/.envia.sh
-ac2d2481e2c8a3d6d5b7e793696c0fb6  usr/bin/rbac/rbac_dir/enviroment
-8f40d716357f3328441dc7f315d7f48b  usr/bin/rbac/rbac_dir/escolta.sh
-6c52fdd8527f176c2d2a180570db4248  usr/bin/rbac/rbac_dir/gestioEntorn
+4506ba589783f9c2c47480a81e3d1e20  usr/bin/rbac/rbac_dir/.envia.sh
+8a104409730075f2f70e2a3352cf359a  usr/bin/rbac/rbac_dir/enviroment
+b3d50df09d4185c5b04804bbc3827ca0  usr/bin/rbac/rbac_dir/escolta.sh
+7077aff05ebc4fada78ba3bf7d286a2b  usr/bin/rbac/rbac_dir/gestioEntorn
 f1513aea279e4ed407d5fde231a8d1e5  usr/bin/rbac/rbac_dir/removeEnviroment
-503b79faa1e9d09f49f2f06925b2ffb1  usr/bin/rbac/rbac_dir/repMail.sh
-3a718894aad5fb9fd2e260a8761ab237  usr/bin/rbac/rbac_dir/setup
+870ee1bcfb9a728200023a20eb3ea23e  usr/bin/rbac/rbac_dir/repMail.sh
+77febe5ac6d43e8d43ace204ebfc60dc  usr/bin/rbac/rbac_dir/setup
 9ab3a2de2bb14190307383fa712300a1  usr/bin/rbac/test
 6629c44039c51f31e6933005e7712c0b  usr/share/doc/rbac/README.Debian
 76f9745989df08e8d8eb2d8dd6166e04  usr/share/doc/rbac/changelog.Debian.gz
