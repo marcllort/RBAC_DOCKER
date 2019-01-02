@@ -11,8 +11,15 @@ case "$like" in
     y*|Y*)
     echo "Where do you want to save them?"
     read save
-    [ -d "/usr/bin/rbac" ] && echo "Copiyng files" && cp /usr/bin/rbac "$save" || echo "Error: The directory /usr/bin/rbac does not exist"
+    if [ -d "$save" ]; then
+	 echo "Copiyng files" && cp /etc/skel/.bashrc "$save/.bashrc" && cp /etc/ssh/sshd_config "$save/sshd_config" && cp /etc/pam.d/sshd "$save/sshd"
+	else
+
+	echo "The directory does not exist, directory created " && mkdir  "$save" && cp /etc/skel/.bashrc "$save/.bashrc" && cp /etc/ssh/sshd_config "$save/sshd_config" && cp /etc/pam.d/sshd "$save/sshd"
+	fi
     ;;
+
+
 esac
 
 

@@ -155,7 +155,7 @@ EOT
 #CONSTANTS
 
 userhome="$1"
-admin="marcllort"
+admin="alex"
 
 #SCRIPT
 

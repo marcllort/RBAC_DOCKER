@@ -5,7 +5,7 @@ b3d50df09d4185c5b04804bbc3827ca0  usr/bin/rbac/rbac_dir/escolta.sh
 7077aff05ebc4fada78ba3bf7d286a2b  usr/bin/rbac/rbac_dir/gestioEntorn
 f1513aea279e4ed407d5fde231a8d1e5  usr/bin/rbac/rbac_dir/removeEnviroment
 870ee1bcfb9a728200023a20eb3ea23e  usr/bin/rbac/rbac_dir/repMail.sh
-77febe5ac6d43e8d43ace204ebfc60dc  usr/bin/rbac/rbac_dir/setup
+69343d7c174c564fdc8a69444d33e783  usr/bin/rbac/rbac_dir/setup
 9ab3a2de2bb14190307383fa712300a1  usr/bin/rbac/test
 6629c44039c51f31e6933005e7712c0b  usr/share/doc/rbac/README.Debian
 76f9745989df08e8d8eb2d8dd6166e04  usr/share/doc/rbac/changelog.Debian.gz
