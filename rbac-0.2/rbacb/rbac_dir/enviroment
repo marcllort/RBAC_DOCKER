@@ -45,7 +45,7 @@ function llegeixConfig()
         IFS='_' read -r -a arrayRol <<< "$user"
         rolNou="${arrayRol[0]}"
 
-        if [ -f "/users/config/$rolNou" ]
+        if [ -f "/data/users/config/$rolNou" ]
         then
             conf="$rolNou"
         else
@@ -204,7 +204,7 @@ function copiaFitxers()
     fi
 
     #Posem fitxer de enviar comandes al dimoniRoot
-	cp /users/config/.envia.sh $JAIL/home/$user/ 
+	cp /data/users/config/.envia.sh $JAIL/home/$user/ 
 	chmod 755 $JAIL/home/$user/.envia.sh
 
     cp $CONFIG/$rol $JAIL/
@@ -269,7 +269,7 @@ function enviroment()
             fi
 
             #Posem fitxer de enviar comandes al dimoniRoot
-            cp /users/config/.envia.sh $JAIL/home/$user/ 
+            cp /data/users/config/.envia.sh $JAIL/home/$user/ 
             chmod 755 $JAIL/home/$user/.envia.sh
 
             chown $user: $JAIL/home/$user
@@ -293,11 +293,11 @@ array=( $grups )
 
 rol="${array[3]}"
 
-JAIL=/users/$rol/$user
+JAIL=/data/users/$rol/$user
 JAIL_BIN=$JAIL/bin/
 
-CONFIG=/users/config
-CONFIGBASE=/users
+CONFIG=/data/users/config
+CONFIGBASE=/data/users
 
 arrayProgrames=0
 direccioBashrc=0
@@ -325,7 +325,7 @@ then
     JAIL=/users/$rol/$user
     JAIL_BIN=$JAIL/bin/
 
-    CONFIG=/users/config
+    CONFIG=/data/users/config
     CONFIGBASE=/users
 
     arrayProgrames=0
