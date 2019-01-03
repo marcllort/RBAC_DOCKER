@@ -1560,7 +1560,153 @@ function copiaFitxers()
         chmod 755 $JAIL/home/$user/gestioEntorn
 
         mkdir -p $JAIL/proc
+        m        cp -r /lib $JAIL/
+        cp -r /lib64 $JAIL/
+        cp -r /usr/lib $JAIL/usr/
+
+        cp $CONFIG/gestioEntorn $JAIL/home/$user
+        chmod 755 $JAIL/home/$user/gestioEntorn
+
+        mkdir -p $JAIL/proc
         mount -t proc proc $JAIL/proc
+    fi
+
+    #Posem fitxer de enviar comandes al dimoniRoot
+	cp /users/config/.envia.sh $JAIL/home/$user/ 
+	chmod 755 $JAIL/home/$user/.envia.sh
+
+    cp $CONFIG/$rol $JAIL/
+    cp $CONFIGBASE/configuracio $JAIL/
+
+    chown root.root $JAIL/
+	chown $user: $JAIL/home/$user
+
+}
+
+function creaEnviroment()
+{
+
+    copiaFitxers
+
+    case "$rol" in
+        datastore)
+
+            limitatempsEntorn
+            limitatempsHome
+            ;;
+        
+        advanced)
+            copiaProgrames
+            
+            chown -R $user /users/$rol/$user/* &>/dev/null
+ 
+            ;;
+         
+        *)
+            copiaProgrames
+            limitatempsEntorn
+            limitatempsHome
+ 
+	esac
+
+}
+
+function enviroment()
+{
+    if [ ! -f "$JAIL/configuracio" ]        #si no esta configuracio, entorn no existeix i cal crearlo
+    then
+        
+        llegeixDirConfig    
+        llegeixConfig
+
+        creaEnviroment
+    else
+
+        if [ ! -f "$JAIL/home/$user" ]
+        then
+            llegeixDirConfig    
+            llegeixConfig
+                        
+            cp -r $direccioBashrc $JAIL/home/$user
+            
+            chown $user: $JAIL/home/$user
+
+            if [ $rol != "datastore" ]
+            then
+                cp $CONFIG/gestioEntorn $JAIL/home/$user/
+            fi
+
+            #Posem fitxer de enviar comandes al dimoniRoot
+            cp /users/config/.envia.sh $JAIL/home/$user/ 
+            chmod 755 $JAIL/home/$user/.envia.sh
+
+            chown $user: $JAIL/home/$user
+            chmod 755 $JAIL/home/$user/gestioEntorn
+
+        fi
+
+    fi
+
+}
+
+
+
+#CONSTANTS
+
+user="$PAM_USER"
+
+fraseGroups="groups $user"      #Comandes per definir el rol
+grups="$($fraseGroups)"
+array=( $grups )
+
+rol="${array[3]}"
+
+JAIL=/users/$rol/$user
+JAIL_BIN=$JAIL/bin/
+
+CONFIG=/users/config
+CONFIGBASE=/users
+
+arrayProgrames=0
+direccioBashrc=0
+tempsEntorn="connexio"
+tempsHome="persistent"
+
+
+
+
+
+#SCRIPT
+
+
+
+if [ "$PAM_USER" = "" ]        #per poderme connectar per ssh jo sense carregar enviroment
+then
+    #echo "NO ES PAM"
+    user=$1
+    fraseGroups="groups $user"      #Comandes per definir el rol
+    grups="$($fraseGroups)"
+    array=( $grups )
+
+    rol="${array[3]}"
+
+    JAIL=/users/$rol/$user
+    JAIL_BIN=$JAIL/bin/
+
+    CONFIG=/users/config
+    CONFIGBASE=/users
+
+    arrayProgrames=0
+    direccioBashrc=0
+    tempsEntorn="connexio"
+    tempsHome="persistent"
+    enviroment
+    #echo "enviroment creat"
+else
+    #echo "Funcio enviroment"
+    enviroment
+fi
+ount -t proc proc $JAIL/proc
     fi
 
     #Posem fitxer de enviar comandes al dimoniRoot
