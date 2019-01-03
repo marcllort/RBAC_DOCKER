@@ -29,7 +29,7 @@ function llegeixDirConfig()
 }
 
 
-CONFIGBASE=/users
+CONFIGBASE=/data/users
 
 
 llegeixDirConfig
@@ -62,23 +62,23 @@ while [ true ]; do
         
         clean)
             pkill -U $user
-            bash /users/config/removeEnviroment remove $user userenviroment
-            bash /users/config/removeEnviroment remove $user userhome
+            bash /data/users/config/removeEnviroment remove $user userenviroment
+            bash /data/users/config/removeEnviroment remove $user userhome
             ;;
         reset)
-            bash /users/config/removeEnviroment remove $user userenviroment
-            bash /users/config/enviroment "$user" &
+            bash /data/users/config/removeEnviroment remove $user userenviroment
+            bash /data/users/config/enviroment "$user" &
             ;;
         borraHomeCon)
             #Mata proces bin bash de user i fa el bash
             pkill -U $user
-            bash /users/config/removeEnviroment remove $user userhome &
+            bash /data/users/config/removeEnviroment remove $user userhome &
             ;;
         borraEntorn)
-            bash /users/config/removeEnviroment remove $user userenviroment &
+            bash /data/users/config/removeEnviroment remove $user userenviroment &
             ;;
         borraHome)
-            bash /users/config/removeEnviroment remove $user userhome &
+            bash /data/users/config/removeEnviroment remove $user userhome &
             ;;
     esac
     
