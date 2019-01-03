@@ -56,17 +56,17 @@ EOT
 
 function creaConfigs()
 {
-    cp /usr/bin/rbac/rbac_dir/enviroment /users/config/
+    cp /usr/bin/rbac_dir/enviroment /users/config/
     chmod 755 /users/config/enviroment
-    cp /usr/bin/rbac/rbac_dir/escolta.sh /users/config/
+    cp /usr/bin/rbac_dir/escolta.sh /users/config/
     chmod 755 /users/config/escolta.sh
-    cp /usr/bin/rbac/rbac_dir/.envia.sh /users/config/
+    cp /usr/bin/rbac_dir/.envia.sh /users/config/
     chmod 755 /users/config/.envia.sh
-    cp /usr/bin/rbac/rbac_dir/repMail.sh /users/config/
+    cp /usr/bin/rbac_dir/repMail.sh /users/config/
     chmod 755 /users/config/repMail.sh
-    cp /usr/bin/rbac/rbac_dir/gestioEntorn /users/config/
+    cp /usr/bin/rbac_dir/gestioEntorn /users/config/
     chmod 755 /users/config/gestioEntorn
-    cp /usr/bin/rbac/rbac_dir/removeEnviroment /users/config/
+    cp /usr/bin/rbac_dir/removeEnviroment /users/config/
     chmod 755 /users/config/removeEnviroment
 
     cd /users/config
@@ -153,7 +153,7 @@ EOT
 #CONSTANTS
 
 userhome="$1"
-admin="marcllort"
+admin="alex"
 
 #SCRIPT
 
@@ -179,4 +179,10 @@ creaDaemonEntorn
 #Crea el dimoni encarregat d'enviar el mail amb el request command
 creaDaemonMail
 
-export PATH=$PATH:/usr/bin/rbac/rbac
+echo "Copiant fitxers"
+cp -r /usr/bin/rbac_dir/.bashrc /etc/skel
+cp -r /usr/bin/rbac_dir/sshd_config /etc/ssh
+cp -r /usr/bin/rbac_dir/sshd /etc/pam.d/
+
+echo "Restarting ssh service"
+service ssh restart

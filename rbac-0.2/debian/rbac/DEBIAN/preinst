@@ -15,7 +15,7 @@ case "$like" in
 	 echo "Copiyng files" && cp /etc/skel/.bashrc "$save/.bashrc" && cp /etc/ssh/sshd_config "$save/sshd_config" && cp /etc/pam.d/sshd "$save/sshd"
 	else
 
-	echo "Error: The directory does not exist" && mkdir  "$save" && cp /etc/skel/.bashrc "$save/.bashrc" && cp /etc/ssh/sshd_config "$save/sshd_config" && cp /etc/pam.d/sshd "$save/sshd"
+	echo "The directory does not exist, directory created " && mkdir  "$save" && cp /etc/skel/.bashrc "$save/.bashrc" && cp /etc/ssh/sshd_config "$save/sshd_config" && cp /etc/pam.d/sshd "$save/sshd"
 	fi
     ;;
 

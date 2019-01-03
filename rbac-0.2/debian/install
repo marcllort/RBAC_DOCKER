@@ -1,3 +1,1 @@
-rbac_dir /usr/bin/rbac 
-rbac /usr/bin/rbac
-test /usr/bin/rbac
+rbacb/. /usr/bin 
