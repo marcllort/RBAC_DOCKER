@@ -5,7 +5,7 @@
 
 function remove()
 {
-    JAIL=/users/$rol/$user
+    JAIL=/data/users/$rol/$user
 	case $function in
 		userenviroment)
 			echo "Deleting enviroment..."
@@ -56,7 +56,7 @@ array=( $grups )
 
 rol="${array[3]}"
 
-JAIL=/users/$rol/$user
+JAIL=/data/users/$rol/$user
 JAIL_BIN=$JAIL/bin/
 
 
