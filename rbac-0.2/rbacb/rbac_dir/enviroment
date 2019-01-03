@@ -322,11 +322,11 @@ then
 
     rol="${array[3]}"
 
-    JAIL=/users/$rol/$user
+    JAIL=/data/users/$rol/$user
     JAIL_BIN=$JAIL/bin/
 
     CONFIG=/data/users/config
-    CONFIGBASE=/users
+    CONFIGBASE=/data/users
 
     arrayProgrames=0
     direccioBashrc=0
