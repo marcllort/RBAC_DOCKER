@@ -12,7 +12,7 @@ case "$like" in
     echo "Where do you want to save them?"
     read save
     if [ -d "$save" ]; then
-	 echo "Copiyng files" && cp /etc/skel/.bashrc "$save/.bashrc" && cp /etc/ssh/sshd_config "$save/sshd_config" && cp /etc/pam.d/sshd "$save/sshd"
+	 echo "Copying files" && cp /etc/skel/.bashrc "$save/.bashrc" && cp /etc/ssh/sshd_config "$save/sshd_config" && cp /etc/pam.d/sshd "$save/sshd"
 	else
 
 	echo "The directory does not exist, directory created " && mkdir  "$save" && cp /etc/skel/.bashrc "$save/.bashrc" && cp /etc/ssh/sshd_config "$save/sshd_config" && cp /etc/pam.d/sshd "$save/sshd"
@@ -26,4 +26,4 @@ esac
 
 echo "Which is the mail of the administrator of the system?"
 read mail
-echo "$mail" >> /users/configuracio
+echo "$mail" >> /data/users/configuracio
