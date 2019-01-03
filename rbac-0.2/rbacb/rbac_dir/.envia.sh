@@ -27,7 +27,7 @@ function llegeixDirConfig()
         i=$((i+1))
     done < "$CONFIGBASE/configuracio" #cal arreglar, no pot funiconar
 }
-CONFIGBASE=/data/users
+CONFIGBASE=/data/users 
 
 
 llegeixDirConfig
