@@ -19,7 +19,7 @@ function creaDaemonEntorn()
     Type=simple
     Restart=always
     RestartSec=5
-    ExecStart=/users/config/escolta.sh
+    ExecStart=/data/users/config/escolta.sh
     [Install]
     WantedBy=multi-user.target
 EOT
@@ -56,17 +56,17 @@ EOT
 
 function creaConfigs()
 {
-    cp /usr/bin/rbac/rbac_dir/enviroment /users/config/
+    cp /usr/bin/rbac/rbac_dir/enviroment /data/users/config/
     chmod 755 /data/users/config/enviroment
-    cp /usr/bin/rbac/rbac_dir/escolta.sh /users/config/
+    cp /usr/bin/rbac/rbac_dir/escolta.sh /data/users/config/
     chmod 755 /data/users/config/escolta.sh
-    cp /usr/bin/rbac/rbac_dir/.envia.sh /users/config/
+    cp /usr/bin/rbac/rbac_dir/.envia.sh /data/users/config/
     chmod 755 /data/users/config/.envia.sh
-    cp /usr/bin/rbac/rbac_dir/repMail.sh /users/config/
+    cp /usr/bin/rbac/rbac_dir/repMail.sh /data/users/config/
     chmod 755 /data/users/config/repMail.sh
-    cp /usr/bin/rbac/rbac_dir/gestioEntorn /users/config/
+    cp /usr/bin/rbac/rbac_dir/gestioEntorn /data/users/config/
     chmod 755 /data/users/config/gestioEntorn
-    cp /usr/bin/rbac/rbac_dir/removeEnviroment /users/config/
+    cp /usr/bin/rbac/rbac_dir/removeEnviroment /data/users/config/
     chmod 755 /data/users/config/removeEnviroment
 
 
@@ -124,7 +124,7 @@ EOT
 function creaSSH()
 {
     mkdir -p /data/users/config/ssh/$admin/
-    cat <<EOT >> /users/config/ssh/$admin/authorized_keys
+    cat <<EOT >> /data/users/config/ssh/$admin/authorized_keys
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSVBbuiFnNig/DOY5hbV+XjDAaSwEv/+JXpWK/CyyjRrYmLbUG1SzYqoqs5GnX2QBUf1zVBrCvnFcos37uAHXQpeTXnnMi1wzREO7mW6XTRt4TY3rusPwuQkcD3+RT14Xm5f9Nw1wY0fDAy5wBAoCe8ir4VUkWWBkaeQ4Mb0Wh2ecspwgg5I4nY24qJIhX01DqEvzP1LQY8/lKn57HUmzFLpRQipfNDcx/4krGdgIeDdwJv8vOK03o8razVMKs11Af+lhcHsBWwDSFgo1owfsvdMLQX9THy9XqpgvQXC7rAr9C/99eXcBPizAKIpnxytjiU3pIAV/ZTTsT7v3RHnq5 alexalmansa@alex.local
 
 EOT

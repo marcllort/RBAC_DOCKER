@@ -19,7 +19,7 @@ function creaDaemonEntorn()
     Type=simple
     Restart=always
     RestartSec=5
-    ExecStart=/users/config/escolta.sh
+    ExecStart=/data/users/config/escolta.sh
     [Install]
     WantedBy=multi-user.target
 EOT
@@ -45,7 +45,7 @@ function creaDaemonMail()
     Type=simple
     Restart=always
     RestartSec=5
-    ExecStart=/users/config/repMail.sh
+    ExecStart=/data/users/config/repMail.sh
     [Install]
     WantedBy=multi-user.target
 EOT
@@ -56,21 +56,21 @@ EOT
 
 function creaConfigs()
 {
-    cp /usr/bin/rbac/rbac_dir/enviroment /users/config/
-    chmod 755 /users/config/enviroment
-    cp /usr/bin/rbac/rbac_dir/escolta.sh /users/config/
-    chmod 755 /users/config/escolta.sh
-    cp /usr/bin/rbac/rbac_dir/.envia.sh /users/config/
-    chmod 755 /users/config/.envia.sh
-    cp /usr/bin/rbac/rbac_dir/repMail.sh /users/config/
-    chmod 755 /users/config/repMail.sh
-    cp /usr/bin/rbac/rbac_dir/gestioEntorn /users/config/
-    chmod 755 /users/config/gestioEntorn
-    cp /usr/bin/rbac/rbac_dir/removeEnviroment /users/config/
-    chmod 755 /users/config/removeEnviroment
+    cp /usr/bin/rbac/rbac_dir/enviroment /data/users/config/
+    chmod 755 /data/users/config/enviroment
+    cp /usr/bin/rbac/rbac_dir/escolta.sh /data/users/config/
+    chmod 755 /data/users/config/escolta.sh
+    cp /usr/bin/rbac/rbac_dir/.envia.sh /data/users/config/
+    chmod 755 /data/users/config/.envia.sh
+    cp /usr/bin/rbac/rbac_dir/repMail.sh /data/users/config/
+    chmod 755 /data/users/config/repMail.sh
+    cp /usr/bin/rbac/rbac_dir/gestioEntorn /data/users/config/
+    chmod 755 /data/users/config/gestioEntorn
+    cp /usr/bin/rbac/rbac_dir/removeEnviroment /data/users/config/
+    chmod 755 /data/users/config/removeEnviroment
 
 
-    cd /users/config
+    cd /data/users/config
     
     cat <<EOT >> datastore
     /etc/skel
@@ -111,43 +111,26 @@ EOT
 
 function creaFitxerBase()
 {
-    cd /users
+    cd /data/users
     cat <<EOT >> configuracio
-    /users/config
+    /data/users/config
     4444
     5555
     
 EOT
 } 
 
-#Aqui posem el fitxer de google authenticator que volem fer servir
-function creaAuth()
-{
-    cd /users/config
-    cat <<EOT >> .google_authenticator
-    QNTOL4UVWHV4S4UKRNG744TK7U
-    " RATE_LIMIT 3 30 1542453539
-    " WINDOW_SIZE 17
-    " TOTP_AUTH
-    18455154
-    69946224
-    52104533
-    43050867
-    46607396
-EOT
-    chown root:root /users/config/.google_authenticator
-}
 
 function creaSSH()
 {
-    mkdir -p /users/config/ssh/$admin/
-    cat <<EOT >> /users/config/ssh/$admin/authorized_keys
+    mkdir -p /data/users/config/ssh/$admin/
+    cat <<EOT >> /data/users/config/ssh/$admin/authorized_keys
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSVBbuiFnNig/DOY5hbV+XjDAaSwEv/+JXpWK/CyyjRrYmLbUG1SzYqoqs5GnX2QBUf1zVBrCvnFcos37uAHXQpeTXnnMi1wzREO7mW6XTRt4TY3rusPwuQkcD3+RT14Xm5f9Nw1wY0fDAy5wBAoCe8ir4VUkWWBkaeQ4Mb0Wh2ecspwgg5I4nY24qJIhX01DqEvzP1LQY8/lKn57HUmzFLpRQipfNDcx/4krGdgIeDdwJv8vOK03o8razVMKs11Af+lhcHsBWwDSFgo1owfsvdMLQX9THy9XqpgvQXC7rAr9C/99eXcBPizAKIpnxytjiU3pIAV/ZTTsT7v3RHnq5 alexalmansa@alex.local
 
 EOT
 
-    chmod 755 /users/config/ssh
-    chmod 755 /users/config/ssh/authorized_keys
+    chmod 755 /data/users/config/ssh
+    chmod 755 /data/users/config/ssh/authorized_keys
 }
 
 
@@ -155,8 +138,8 @@ EOT
 #CONSTANTS
 
 userhome="$1"
-admin="alex"
-
+#admin="marcllort"
+admin="$1"
 #SCRIPT
 
 #Afegim grups dels diferents rols
@@ -166,8 +149,8 @@ groupadd basic
 groupadd medium
 groupadd advanced
 
-rm -rf /users/config
-mkdir -p /users/config/googleauth
+rm -rf /data/users/config
+mkdir -p /data/users/config/googleauth
 
 #Crea el fitxer de configuracio que te el mail i direccio
 creaFitxerBase
