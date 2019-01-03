@@ -9,6 +9,7 @@ lib modules no copiar-lo per tal de que els .tar i les imatges no ocupin tant, t
 1. CREAR LA DOCKER IMAGE: 
 
 sudo tar -c . | sudo docker import - medium
+
 2. Crear un fitxer executable a bin i substituir al fitxer etc/passwd per el nostre fitxer que conté aquesta línia
 
 docker run -i -t medium /bin/bash
