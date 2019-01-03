@@ -31,7 +31,7 @@ function llegeixDirConfig()
 
 
 
-CONFIGBASE=/users
+CONFIGBASE=/data/users
 
 llegeixDirConfig
 echo "$PORTmail"
@@ -44,7 +44,7 @@ while [ true ]; do
     touch message.txt
     echo "$mailmessage" > message.txt
 
-    admin=$(sed "2q;d" /users/configuracio)
+    admin=$(sed "2q;d" /data/users/configuracio)
 
     sendmail $admin < message.txt &
 
