@@ -7,7 +7,7 @@ bash rbac -r medium1 medium
 bash rbac -r advanced1 advanced
 
 
-rm -rf /users/
+rm -rf /data/users/
 
 bash rbac_dir/setup "$1"
 
@@ -18,3 +18,10 @@ bash rbac -a visitor1 visitor
 bash rbac -a basic1 basic
 bash rbac -a medium1 medium
 bash rbac -a advanced1 advanced
+
+
+bash rbac_dir/enviroment data1
+bash rbac_dir/enviroment visitor1
+bash rbac_dir/enviroment basic1
+bash rbac_dir/enviroment medium1
+bash rbac_dir/enviroment advanced1
