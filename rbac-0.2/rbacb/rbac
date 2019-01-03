@@ -6,14 +6,13 @@
 
 #FUNCIONS
 
-
+#cal modificar segons el usuari, posar la teva clau ssh
 function creaSSH()
 {
-    cat <<EOT >> /users/config/ssh/$user/authorized_keys
+    cat <<EOT >> /data/users/config/ssh/$user/authorized_keys
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSVBbuiFnNig/DOY5hbV+XjDAaSwEv/+JXpWK/CyyjRrYmLbUG1SzYqoqs5GnX2QBUf1zVBrCvnFcos37uAHXQpeTXnnMi1wzREO7mW6XTRt4TY3rusPwuQkcD3+RT14Xm5f9Nw1wY0fDAy5wBAoCe8ir4VUkWWBkaeQ4Mb0Wh2ecspwgg5I4nY24qJIhX01DqEvzP1LQY8/lKn57HUmzFLpRQipfNDcx/4krGdgIeDdwJv8vOK03o8razVMKs11Af+lhcHsBWwDSFgo1owfsvdMLQX9THy9XqpgvQXC7rAr9C/99eXcBPizAKIpnxytjiU3pIAV/ZTTsT7v3RHnq5 alexalmansa@alex.local
 
 EOT
-
 }
 
 
@@ -43,16 +42,16 @@ function llegeixConfig()
     done < "$CONFIG/$rol"
 }
 
+
 function afegeixConfig()
 {
 	cat <<EOT >> /etc/ssh/sshd_config
 	
 Match group $rol
-        ChrootDirectory /users/$rol/%u/
+        ChrootDirectory /data/users/$rol/%u/
         PubkeyAuthentication yes
         AuthenticationMethods publickey,keyboard-interactive
 EOT
-
 	systemctl restart ssh
 }
 
@@ -66,7 +65,7 @@ function checkGroup()
 	else
 		echo "Rol NO existent..."
 		
-		if [ -f "/users/config/$rol" ]
+		if [ -f "/data/users/config/$rol" ]
 		then
 			echo "Vols crear aquest rol? Respon amb 'y' o 'n'"
 			read resposta
@@ -104,25 +103,25 @@ function creaUser()
 		useradd -G $rol $user -d /home/$user		
 
 		#Creo fitxers necessaris per ssh
-		mkdir -p /users/config/ssh/$user/
-		chown $user /users/config/ssh/$user
-		touch /users/config/ssh/$user/authorized_keys
+		mkdir -p /data/users/config/ssh/$user/
+		chown $user /data/users/config/ssh/$user
+		touch /data/users/config/ssh/$user/authorized_keys
 
 		#Creo fitxers necessaris per googleauth
-		mkdir -p /users/config/googleauth/$user
+		mkdir -p /data/users/config/googleauth/$user
 
 
 		#Careo direcotri de la jail
 		mkdir -p $JAIL
 		
 
-		runuser -l $user -s /bin/sh -c "ssh-keygen -t rsa -b 2048 -f /users/config/ssh/$user/$user-key -N ''"
+		runuser -l $user -s /bin/sh -c "ssh-keygen -t rsa -b 2048 -f /data/users/config/ssh/$user/$user-key -N ''"
 
 
-		google-authenticator -s /users/config/googleauth/$user/.google_authenticator -t -q -d -f -u -w 3
+		google-authenticator -s /data/users/config/googleauth/$user/.google_authenticator -t -q -d -f -u -w 3
 
 
-		cat /users/config/ssh/$user/$user-key.pub >> /users/config/ssh/$user/authorized_keys
+		cat /data/users/config/ssh/$user/$user-key.pub >> /data/users/config/ssh/$user/authorized_keys
 		
 
 		#Posem fitxer de configuració del rol determinat
@@ -136,7 +135,7 @@ function creaUser()
 
 function remove()
 {
-    JAIL=/users/$rol/$user
+    JAIL=/data/users/$rol/$user
 	case $function in
 		userenviroment)
 			echo "Deleting enviroment..."
@@ -198,9 +197,9 @@ rol=$3
 deleteTipus=$4
 direccioBashrc=0
 
-JAIL=/users/$rol/$user
+JAIL=/data/users/$rol/$user
 JAIL_BIN=$JAIL/bin/
-CONFIG=/users/config
+CONFIG=/data/users/config
 
 
 
