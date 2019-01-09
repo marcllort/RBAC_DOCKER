@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [[!"$(docker images -q myimage:mytag 2> /dev/null)" == "" ]]; then
+  # do something
+	docker create -i -t --user "$USER" --name="$USER" medium /bin/bash
+fi
+
+echo "$GROUP"
+
+#docker run -it --user medium1 medium /bin/bash
+
+sudo docker exec -it "$USER" "$1:x:0001:1001::/home/$1:/bin/bash1" > /etc/passwd
+
+docker start "$USER"
+docker attach "$USER"
+
+#Limitar memòria fisica i swap==  -m i --memory-swap
+#Limitar CPU -c 512/1024/...
