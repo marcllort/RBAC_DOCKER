@@ -101,7 +101,7 @@ function creaUser()
 	else
 		
 		useradd -G $rol $user -d /home/$user		
-
+		usermod -a -G docker $user
 		#Creo fitxers necessaris per ssh
 		mkdir -p /data/users/config/ssh/$user/
 		chown $user /data/users/config/ssh/$user
