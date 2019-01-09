@@ -139,12 +139,12 @@ function remove()
 	case $function in
 		userenviroment)
 			echo "Deleting enviroment..."
-			
+
 			cd $JAIL
 			umount $JAIL/proc
 			find . -maxdepth 1 ! -iname "$rol" ! -iname home -exec rm -rf {} \;
 			echo "User deleted"
-			
+
 			;;
 
 		userhome)
@@ -176,13 +176,18 @@ function remove()
 		
 	esac
 }
-
+function update()
+{
+#Fer que crei enviroments? + tornar a crear totes les imatges docker
+echo "Update"
+}
 
 function help {
 	echo "Usage: rbac [COMMAND]"
 	echo "Add and remove users.\n"
 	echo "-a, --add			add user. Must specify user type. Ex: rbac -a foo visitor"
 	echo "-r, --remove			remove user, home and enviroment. If added userhome, only home will be deleted to Ex: rbac -r foo visitor userhome. If userenviroment added, only enviroment will be deleted."
+	echo "-u, --update			update all the dockerimages"
 	echo "-h, --help			help info"
 }
 
@@ -223,6 +228,9 @@ case "$function" in
 		;;
 	"-h" | "--help")	
 		help
+		;;
+	"-u" |"--update")
+		update
 		;;
 	*)
 		echo "rbac: invalid command."

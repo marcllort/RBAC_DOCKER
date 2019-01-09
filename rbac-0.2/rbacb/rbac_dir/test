@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cd ..
 bash rbac -r data1 datastore
 bash rbac -r visitor1 visitor
 bash rbac -r basic1 basic
