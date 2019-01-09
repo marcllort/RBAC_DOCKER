@@ -1,0 +1,4 @@
+bash,touch,mkdir,rm,ls,vim,nano,gcc,make,kill
+/etc/skel
+1 day
+persistent
