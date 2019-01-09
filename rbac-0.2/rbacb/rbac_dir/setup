@@ -76,6 +76,13 @@ function creaConfigs()
     /etc/skel
     0
     0
+    x
+    x
+    bridged
+    0.5
+    512
+    50m
+    100m
 EOT
 
     cat <<EOT >> visitor
@@ -83,6 +90,13 @@ EOT
     /etc/skel
     1 day
     1 day
+    x
+    x
+    bridged
+    0.75
+    512
+    150m
+    300m
 EOT
 
     cat <<EOT >> basic
@@ -90,6 +104,13 @@ EOT
     /etc/skel
     1 day
     persistent
+    x
+    30000
+    bridged
+    1
+    1024
+    200m
+    400m
 EOT
 
     cat <<EOT >> medium
@@ -97,6 +118,13 @@ EOT
     /etc/skel
     1 day
     persistent
+    x
+    30000
+    bridged
+    1.5
+    1536
+    500m
+    1g
 EOT
 
     #cal afegir dos mes al advanced
@@ -104,8 +132,15 @@ EOT
     cat <<EOT >> advanced
     bash,touch,mkdir,rm,ls,vim,nano,gcc,make,kill,java,ln,ps,python3,pip,valgrind,grep,awk,sed,chmod,chown,strace,cat,mv,rm,rmdir,clear
     /etc/skel
-    persistentc
     persistent
+    persistent
+    x
+    30000
+    bridged
+    2
+    2048
+    750m
+    1.5g
 EOT
 }
 
