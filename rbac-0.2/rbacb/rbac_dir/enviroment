@@ -192,7 +192,8 @@ function copiaFitxers()
 
         cp -r /bin/sh $JAIL/bin
         cp -r /bin/bash $JAIL/bin
-        cp -r /lib $JAIL/
+        cp -r /lib $JAIL/ 
+        rm -rf $JAIL/lib/modules
         cp -r /lib64 $JAIL/
         cp -r /usr/lib $JAIL/usr/
 
