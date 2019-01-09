@@ -24,3 +24,18 @@ Posar rbac com a executable
 
 
 Un script porque al iniciar el container porque es mantingui obert. Creo el container, l’encenc I entro. Al sortir fait exit i el conteiner s’hauria d’apagar. Quan surts del container no varig a la shell del servidor. Això es fa amb docker attach.Canviar la shell axí quan fas el exit, com deixa de tenir shell es desconecta.
+
+
+Fitxer bash 1
+
+#!/bin/bash
+docker create -i -t  --name=medium medium /bin/bash
+docker start medium
+docker attach medium
+
+
+
+docker exec executar comandes dins
+docker copy copia arxius de fora creats per nosaltres com passwd a dins de la carpeta
+cal entrar com al usuari i no com a root
+tornar a carregar el bashrc = source .bashrc
