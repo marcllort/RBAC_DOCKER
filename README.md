@@ -34,6 +34,9 @@ docker start medium
 docker attach medium
 
 
+change docker default path https://sanenthusiast.com/change-default-image-container-location-docker/
+
+
 
 docker exec executar comandes dins
 docker copy copia arxius de fora creats per nosaltres com passwd a dins de la carpeta
