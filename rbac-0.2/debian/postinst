@@ -199,6 +199,11 @@ creaDaemonEntorn
 #Crea el dimoni encarregat d'enviar el mail amb el request command
 creaDaemonMail
 
+touch /var/log/docker.log
+touch /var/log/user.log
+touch /var/log/request.log
+
+
 echo "Copiant fitxers"
 cp -r /usr/bin/rbac_dir/.bashrc /etc/skel
 cp -r /usr/bin/rbac_dir/sshd_config /etc/ssh
