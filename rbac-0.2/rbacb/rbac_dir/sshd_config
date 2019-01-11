@@ -127,28 +127,23 @@ Subsystem sftp internal-sftp
 AuthorizedKeysFile  /data/users/config/ssh/%u/authorized_keys
 
 Match group datastore
-        ChrootDirectory /data/users/datastore/%u/
         AuthenticationMethods keyboard-interactive
         X11Forwarding no
         AllowTcpForwarding no
         ForceCommand internal-sftp
 
 Match group visitor
-        ChrootDirectory /data/users/visitor/%u/
         PubkeyAuthentication yes
         AuthenticationMethods publickey,keyboard-interactive
 
 Match group basic
-        ChrootDirectory /data/users/basic/%u/
         PubkeyAuthentication yes
         AuthenticationMethods publickey,keyboard-interactive
 
-#Match group medium
- #       ChrootDirectory /data/users/medium/%u/
-  #      PubkeyAuthentication yes
-   #     AuthenticationMethods publickey,keyboard-interactive
+ Match group medium
+         PubkeyAuthentication yes
+         AuthenticationMethods publickey,keyboard-interactive
 
 Match group advanced
-        ChrootDirectory /data/users/advanced/%u/
         PubkeyAuthentication yes
         AuthenticationMethods publickey,keyboard-interactive
