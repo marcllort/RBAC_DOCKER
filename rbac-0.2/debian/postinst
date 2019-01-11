@@ -200,8 +200,11 @@ creaDaemonEntorn
 creaDaemonMail
 
 touch /var/log/docker.log
+chmod 666 /var/log/docker.log
 touch /var/log/user.log
+chmod 666 /var/log/user.log
 touch /var/log/request.log
+chmod 666 /var/log/request.log
 
 
 echo "Copiant fitxers"

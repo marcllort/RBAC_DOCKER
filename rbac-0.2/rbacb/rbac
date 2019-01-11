@@ -240,14 +240,16 @@ case "$function" in
                 ;;
         "-r" | "--remove")
                 remove $deleteTipus
-                logger -f /var/log/user.log -p user.info "RM - User: $user removed to group $rol"
+                echo "RM - User: $user removed to group $rol" >> /var/log/user.log
+                logger -f /var/log/user.log -p user.info 
                 ;;
         "-h" | "--help")
                 help
                 ;;
         "-u" |"--update")
                 update
-                logger -f /var/log/docker.log -p user.info "UPDATE: Docker images updated"
+                echo "UPDATE: Docker images updated" >> /var/log/docker.log
+                logger -f /var/log/docker.log -p user.info 
                 ;;
         *)
                 echo "rbac: invalid command."
