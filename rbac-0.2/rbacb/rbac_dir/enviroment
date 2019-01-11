@@ -170,16 +170,6 @@ function copiaFitxers()
 {
 
     
-    if [ ! -f "$JAIL/home" ]
-    then
-        #Poso skel a la home
-        mkdir -p $JAIL/home
-        cp -r $direccioBashrc $JAIL/home/$user
-        chown $user: $JAIL/home/$user
-        
-    fi
-
-    
     if [ $rol != "datastore" ]
     then
         mkdir -p $JAIL/
@@ -204,21 +194,19 @@ function copiaFitxers()
         cp -r /usr/lib $JAIL/usr/
 
         cp $CONFIG/gestioEntorn $JAIL/home/$user
-        chmod 755 $JAIL/home/$user/gestioEntorn
+        
 
         mkdir -p $JAIL/proc
        # mount -t proc proc $JAIL/proc
     fi
 
     #Posem fitxer de enviar comandes al dimoniRoot
-	cp /data/users/config/.envia.sh $JAIL/home/$user/ 
-	chmod 755 $JAIL/home/$user/.envia.sh
+	
 
     cp $CONFIG/$rol $JAIL/
     cp $CONFIGBASE/configuracio $JAIL/
 
     chown root.root $JAIL/
-	chown $user: $JAIL/home/$user
 
 }
 
