@@ -108,8 +108,8 @@ function requestCommnad {
 	echo "What is your request?"
 	read line
 	echo -e "Subject: Request from $user \n\n $line" |netcat localhost $PORTmail -w0
-	echo "Request from $user \n\n $line" >> /var/log/request.log
-	logger -f /var/log/request.log -p user.info
+	echo "Request from $user \n\n $line" >> /var/log/rbac/request.log
+	logger -f /var/log/rbac/request.log -p user.info
 }
 
 function help {

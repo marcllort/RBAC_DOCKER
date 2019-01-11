@@ -236,21 +236,21 @@ case "$function" in
                 llegeixConfig
                 creaUser
                 creaSSH
-                echo "ADD - User: $user added to group $rol" >> /var/log/user.log
-                logger -f /var/log/user.log -p user.info
+                echo "ADD - User: $user added to group $rol" >> /var/log/rbac/user.log
+                logger -f /var/log/rbac/user.log -p user.info
                 ;;
         "-r" | "--remove")
                 remove $deleteTipus
-                echo "RM - User: $user removed to group $rol" >> /var/log/user.log
-                logger -f /var/log/user.log -p user.info 
+                echo "RM - User: $user removed to group $rol" >> /var/log/rbac/user.log
+                logger -f /var/log/rbac/user.log -p user.info 
                 ;;
         "-h" | "--help")
                 help
                 ;;
         "-u" |"--update")
                 update
-                echo "UPDATE: Docker images updated" >> /var/log/docker.log
-                logger -f /var/log/docker.log -p user.info 
+                echo "UPDATE: Docker images updated" >> /var/log/rbac/docker.log
+                logger -f /var/log/rbac/docker.log -p user.info 
                 ;;
         *)
                 echo "rbac: invalid command."

@@ -199,12 +199,15 @@ creaDaemonEntorn
 #Crea el dimoni encarregat d'enviar el mail amb el request command
 creaDaemonMail
 
-touch /var/log/docker.log
-chmod 666 /var/log/docker.log
-touch /var/log/user.log
-chmod 666 /var/log/user.log
-touch /var/log/request.log
-chmod 666 /var/log/request.log
+
+mkdir /var/log/rbac
+
+touch /var/log/rbac/docker.log
+chmod 666 /var/log/rbac/docker.log
+touch /var/log/rbac/user.log
+chmod 666 /var/log/rbac/user.log
+touch /var/log/rbac/request.log
+chmod 666 /var/log/rbac/request.log
 
 
 echo "Copiant fitxers"
