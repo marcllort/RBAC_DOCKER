@@ -28,6 +28,12 @@ function llegeixDirConfig()
             3)
                 MAIL="$line"
                 ;;
+            4)  
+                DIRENTORN="$line"
+                ;;
+            5)
+                FACILITY="$line"
+                ;;
 
             *)
                 ;;

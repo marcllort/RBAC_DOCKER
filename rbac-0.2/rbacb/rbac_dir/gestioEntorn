@@ -5,6 +5,11 @@
 
 function llegeixDirConfig()
 {
+    if [ ! -f "$CONFIGBASE/configuracio" ]        #si no esta configuracio, entorn no existeix i cal crearlo
+    then
+        echo "Fitxer de configuració base inexistent"
+    fi
+
     i=0
     while read -r line; do
         case "$i" in
@@ -22,6 +27,12 @@ function llegeixDirConfig()
                 ;;
             3)
                 MAIL="$line"
+                ;;
+            4)  
+                DIRENTORN="$line"
+                ;;
+            5)
+                FACILITY="$line"
                 ;;
 
             *)
@@ -109,7 +120,7 @@ function requestCommnad {
 	read line
 	echo -e "Subject: Request from $user \n\n $line" |netcat localhost $PORTmail -w0
 	echo "Request from $user \n\n $line" >> /var/log/rbac/request.log
-	logger -f /var/log/rbac/request.log -p user.info
+	logger -f /var/log/rbac/request.log -p "$FACILITY"
 }
 
 function help {

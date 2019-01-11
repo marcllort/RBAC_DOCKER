@@ -16,6 +16,46 @@ EOT
 }
 
 
+function llegeixDirConfig()
+{
+    if [ ! -f "$CONFIGBASE/configuracio" ]        #si no esta configuracio, entorn no existeix i cal crearlo
+    then
+        echo "Fitxer de configuració base inexistent"
+    fi
+
+    i=0
+    while read -r line; do
+        case "$i" in
+            0)
+                CONFIG="$line"
+                ;;
+
+            1)
+                PORTroot="$line"
+                ;;
+            
+            2)
+                
+                PORTmail="$line"
+                ;;
+            3)
+                MAIL="$line"
+                ;;
+            4)  
+                DIRENTORN="$line"
+                ;;
+            5)
+                FACILITY="$line"
+                ;;
+
+            *)
+                ;;
+        esac
+        i=$((i+1))
+    done < "$CONFIGBASE/configuracio"
+}
+
+
 function llegeixConfig()
 {
     i=0
@@ -228,7 +268,7 @@ if [ $# -lt 1 ]
 then
         echo "Missing operand. Try: 'rbac --help' for more information."
 fi
-
+llegeixDirConfig
 case "$function" in
 
         "-a" | "--add")
@@ -237,12 +277,12 @@ case "$function" in
                 creaUser
                 creaSSH
                 echo "ADD - User: $user added to group $rol" >> /var/log/rbac/user.log
-                logger -f /var/log/rbac/user.log -p user.info
+                logger -f /var/log/rbac/user.log -p "$FACILITY"
                 ;;
         "-r" | "--remove")
                 remove $deleteTipus
                 echo "RM - User: $user removed to group $rol" >> /var/log/rbac/user.log
-                logger -f /var/log/rbac/user.log -p user.info 
+                logger -f /var/log/rbac/user.log -p "$FACILITY"
                 ;;
         "-h" | "--help")
                 help
@@ -250,7 +290,7 @@ case "$function" in
         "-u" |"--update")
                 update
                 echo "UPDATE: Docker images updated" >> /var/log/rbac/docker.log
-                logger -f /var/log/rbac/docker.log -p user.info 
+                logger -f /var/log/rbac/docker.log -p "$FACILITY"
                 ;;
         *)
                 echo "rbac: invalid command."
