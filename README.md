@@ -12,6 +12,17 @@ sudo tar -c . | sudo docker import - medium
 
 2. Crear un fitxer executable a bin i substituir al fitxer etc/passwd per el nostre fitxer que conté aquesta línia
 
+
+
+Afegir disc dur desde vmware/virtualbox. Iniciem la maquina virtual i fem: a) fdisk /dev/sdb b) Fem "n", "p", enter, enter, last. Ara "w" per escriure els canvis. c) Executem: "mkfs -t ext3 /dev/sdb1","mkfs.ext3 /dev/sdb1", "mke2fs -j /dev/sdb1" d) Editem el fitxer "/etc/fstab" i posem: "/dev/sdb1 /usersext3 defaults 2 1" e) Reiniciem la maquina virtual 
+
+
+
+
+
+
+
+
 docker run -i -t medium /bin/bash
 
 Canviat fixer /etc/passwd porque en comptes de executar /bin/bash al entrar executi /bin/bash1 
