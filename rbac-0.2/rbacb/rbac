@@ -33,9 +33,9 @@ function llegeixConfig()
             3)
                 tempsHome="$line"
                 ;;
-            *)  
-                
-                ;;   
+            *)
+
+                ;;
         esac
         i=$((i+1))
 
@@ -45,150 +45,164 @@ function llegeixConfig()
 
 function afegeixConfig()
 {
-	cat <<EOT >> /etc/ssh/sshd_config
-	
+        cat <<EOT >> /etc/ssh/sshd_config
+
 Match group $rol
         ChrootDirectory /data/users/$rol/%u/
         PubkeyAuthentication yes
         AuthenticationMethods publickey,keyboard-interactive
 EOT
-	systemctl restart ssh
+        systemctl restart ssh
 }
 
 
 function checkGroup()
 {
 
-	if grep -q $rol /etc/group
-	then
-		echo "Rol existent..."
-	else
-		echo "Rol NO existent..."
-		
-		if [ -f "/data/users/config/$rol" ]
-		then
-			echo "Vols crear aquest rol? Respon amb 'y' o 'n'"
-			read resposta
+        if grep -q $rol /etc/group
+        then
+                echo "Rol existent..."
+        else
+                echo "Rol NO existent..."
 
-			case "$resposta" in
-				y|Y)
-					groupadd "$rol"
-					afegeixConfig
-					;;
+                if [ -f "/data/users/config/$rol" ]
+                then
+                        echo "Vols crear aquest rol? Respon amb 'y' o 'n'"
+                        read resposta
 
-				n|N)
-					exit 1
-					;;
+                        case "$resposta" in
+                                y|Y)
+                                        groupadd "$rol"
+                                        afegeixConfig
+                                        ;;
 
-				*)
-					echo "La resposta no es possible, respon amb 'y' o 'n'"
+                                n|N)
+                                        exit 1
+                                        ;;
 
-			esac
-		else
-			exit 1
-		fi
+                                *)
+                                        echo "La resposta no es possible, respon amb 'y' o 'n'"
 
-	fi
+                        esac
+                else
+                        exit 1
+                fi
+
+        fi
 
 }
 
 
 function creaUser()
 {
-	#Miro si ja existeix usuari
-	if getent passwd $user > /dev/null 2>&1; then
-		echo "User already exists!"
-	else
-		
-		useradd -G $rol $user -d /home/$user		
-		usermod -a -G docker $user
-		#Creo fitxers necessaris per ssh
-		mkdir -p /data/users/config/ssh/$user/
-		chown $user /data/users/config/ssh/$user
-		touch /data/users/config/ssh/$user/authorized_keys
+        #Miro si ja existeix usuari
+        if getent passwd $user > /dev/null 2>&1; then
+                echo "User already exists!"
+        else
 
-		#Creo fitxers necessaris per googleauth
-		mkdir -p /data/users/config/googleauth/$user
+                useradd -G $rol $user -d /home/$user
+                usermod -a -G docker $user
+                #Creo fitxers necessaris per ssh
+                mkdir -p /data/users/config/ssh/$user/
+                chown $user /data/users/config/ssh/$user
+                touch /data/users/config/ssh/$user/authorized_keys
 
-
-		#Careo direcotri de la jail
-		mkdir -p $JAIL
-		
-
-		runuser -l $user -s /bin/sh -c "ssh-keygen -t rsa -b 2048 -f /data/users/config/ssh/$user/$user-key -N ''"
+                #Creo fitxers necessaris per googleauth
+                mkdir -p /data/users/config/googleauth/$user
 
 
-		google-authenticator -s /data/users/config/googleauth/$user/.google_authenticator -t -q -d -f -u -w 3
+                #Careo direcotri de la jail
+                mkdir -p $JAIL
 
 
-		cat /data/users/config/ssh/$user/$user-key.pub >> /data/users/config/ssh/$user/authorized_keys
-		
-
-		#Posem fitxer de configuració del rol determinat
-		cp $CONFIG/$rol $JAIL/
+                runuser -l $user -s /bin/sh -c "ssh-keygen -t rsa -b 2048 -f /data/users/config/ssh/$user/$user-key -N ''"
 
 
-	fi
-	
+                google-authenticator -s /data/users/config/googleauth/$user/.google_authenticator -t -q -d -f -u -w 3
+
+
+                cat /data/users/config/ssh/$user/$user-key.pub >> /data/users/config/ssh/$user/authorized_keys
+
+
+                #Posem fitxer de configuració del rol determinat
+                cp $CONFIG/$rol $JAIL/
+
+
+        fi
+
 }
 
 
 function remove()
 {
     JAIL=/data/users/$rol/$user
-	case $function in
-		userenviroment)
-			echo "Deleting enviroment..."
+        case $function in
+                userenviroment)
+                        echo "Deleting enviroment..."
 
-			cd $JAIL
-			umount $JAIL/proc
-			find . -maxdepth 1 ! -iname "$rol" ! -iname home -exec rm -rf {} \;
-			echo "User deleted"
+                        cd $JAIL
+                        umount $JAIL/proc
+                        find . -maxdepth 1 ! -iname "$rol" ! -iname home -exec rm -rf {} \;
+                        echo "User deleted"
 
-			;;
+                        ;;
 
-		userhome)
-			echo "Deleting home..."
+                userhome)
+                        echo "Deleting home..."
 
-			who | grep "$user"
-			funciona=$?
-			if [ $funciona -eq 1 ]; then
-				rm -rf $JAIL/home/$user
-				echo "User deleted"
-			else
-				echo "User is logged in. After he logs out, user will be deleted."
-				echo "bash /home/$user/.envia.sh borraHomeCon" >> "$JAIL/home/$user/.bash_logout"
-			fi
-			;;
+                        who | grep "$user"
+                        funciona=$?
+                        if [ $funciona -eq 1 ]; then
+                                rm -rf $JAIL/home/$user
+                                echo "User deleted"
+                        else
+                                echo "User is logged in. After he logs out, user will be deleted."
+                                echo "bash /home/$user/.envia.sh borraHomeCon" >> "$JAIL/home/$user/.bash_logout"
+                        fi
+                        ;;
 
-		*)
-			echo "Deleting user..."
-			userdel $user
-			funciona=$?
-			if [ $funciona -eq 0 ]; then
-				umount $JAIL/proc
-				rm -rf $JAIL/
-				echo "User deleted"
-			else
-				echo "User is logged in."
-			fi
-			;;
-		
-	esac
+                *)
+                        echo "Deleting user..."
+                        userdel $user
+                        funciona=$?
+                        if [ $funciona -eq 0 ]; then
+                                umount $JAIL/proc
+                                rm -rf $JAIL/
+                                echo "User deleted"
+                        else
+                                echo "User is logged in."
+                        fi
+                        ;;
+
+        esac
 }
 function update()
 {
+        userc=$user
+	nom=$rol
 #Fer que crei enviroments? + tornar a crear totes les imatges docker
-echo "Update"
+        case "$userc" in
+        "-m" | "--medium")
+                user="mediumImage"
+                rol="medium"
+                creaUser
+		cd /home/"$nom"/rbac-0.2/rbacb/rbac_dir
+		bash removeEnviroment mediumImage
+                bash enviroment mediumImage
+                cd /data/users/medium/mediumImage
+                sudo tar -c . | sudo docker import - medium
+		;;
+		esac
+		echo "Update"
 }
 
 function help {
-	echo "Usage: rbac [COMMAND]"
-	echo "Add and remove users.\n"
-	echo "-a, --add			add user. Must specify user type. Ex: rbac -a foo visitor"
-	echo "-r, --remove			remove user, home and enviroment. If added userhome, only home will be deleted to Ex: rbac -r foo visitor userhome. If userenviroment added, only enviroment will be deleted."
-	echo "-u, --update			update all the dockerimages"
-	echo "-h, --help			help info"
+        echo "Usage: rbac [COMMAND]"
+        echo "Add and remove users.\n"
+        echo "-a, --add                 add user. Must specify user type. Ex: rbac -a foo visitor"
+        echo "-r, --remove                      remove user, home and enviroment. If added userhome, only home will be deleted to Ex: rbac -r foo visitor userhome. If userenviroment added, only enviroment will be deleted."
+        echo "-u, --update                      update all the dockerimages ex: rbac -u -medium name"
+        echo "-h, --help                        help info"
 }
 
 
@@ -212,28 +226,28 @@ CONFIG=/data/users/config
 
 if [ $# -lt 1 ]
 then
-	echo "Missing operand. Try: 'rbac --help' for more information."
+        echo "Missing operand. Try: 'rbac --help' for more information."
 fi
 
 case "$function" in
 
-	"-a" | "--add")
-		checkGroup
-		llegeixConfig
-		creaUser
-		creaSSH
-		;;
-	"-r" | "--remove")
-		remove $deleteTipus
-		;;
-	"-h" | "--help")	
-		help
-		;;
-	"-u" |"--update")
-		update
-		;;
-	*)
-		echo "rbac: invalid command."
-		echo "Try: 'rbac --help' for more information."
+        "-a" | "--add")
+                checkGroup
+                llegeixConfig
+                creaUser
+                creaSSH
+                ;;
+        "-r" | "--remove")
+                remove $deleteTipus
+                ;;
+        "-h" | "--help")
+                help
+                ;;
+        "-u" |"--update")
+                update
+                ;;
+        *)
+                echo "rbac: invalid command."
+                echo "Try: 'rbac --help' for more information."
 
 esac

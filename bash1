@@ -77,7 +77,7 @@ if (( $(echo "$cp <  $cpu" |bc -l) )); then
 fi
 if [ ! "$(docker ps -a | grep $USER)" ]; then
 
-	docker create -i -t --user "$USER" --name="$USER" -m "$memFisica" --memory-swap "$memSwap" medium /bin/bash
+	docker create -i -t --user "$USER" --name="$USER"  -p "$exposedPorts"  -m "$memFisica" --memory-swap "$memSwap" medium /bin/bash
         echo "NO EXISTEIX"
 
 else
@@ -86,8 +86,27 @@ fi
 
 sudo docker exec -it "$USER" "$1:x:0001:1001::/home/$1:/bin/bash1" > /etc/passwd                                            ##PREGUNTAAR
 
-docker start "$USER"
+
+docker exec -it "$USER" cd /home/
+mv mediumImage "$USER"
+chown -R "$USER" "$USER"
+
+
+
 docker attach "$USER"
+
+docker exec -it "$USER" service /home/.bashrc                                            ##PREGUNTAAR
+docker exec -it "$USER" cd /home/
+mv mediumImage "$USER"
+chown -R "$USER" "$USER"
+docker start "$USER"
+
+
+
+
+
+
+
 
 #Limitar memoria fisica i swap==  -m i --memory-swap
 #Limitar CPU -c 512/1024/...  --cpu-shares
