@@ -236,7 +236,8 @@ case "$function" in
                 llegeixConfig
                 creaUser
                 creaSSH
-                logger -f /var/log/user.log -p user.info "ADD - User: $user added to group $rol"
+                echo "ADD - User: $user added to group $rol" >> /var/log/user.log
+                logger -f /var/log/user.log -p user.info
                 ;;
         "-r" | "--remove")
                 remove $deleteTipus
