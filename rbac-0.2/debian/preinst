@@ -21,9 +21,3 @@ case "$like" in
 
 
 esac
-
-
-
-echo "Which is the mail of the administrator of the system?"
-read mail
-echo "$mail" >> /data/users/configuracio
