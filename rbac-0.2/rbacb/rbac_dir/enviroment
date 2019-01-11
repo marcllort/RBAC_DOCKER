@@ -201,7 +201,7 @@ function copiaFitxers()
         chmod 755 $JAIL/home/$user/gestioEntorn
 
         mkdir -p $JAIL/proc
-        mount -t proc proc $JAIL/proc
+       # mount -t proc proc $JAIL/proc
     fi
 
     #Posem fitxer de enviar comandes al dimoniRoot
