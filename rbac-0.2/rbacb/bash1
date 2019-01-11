@@ -70,7 +70,9 @@ rol="${array[2]}"
 CONFIG=/data/users/config
 
 llegeixConfig
+
 cp="$(nproc)"
+
 
 if (( $(echo "$cp <  $cpu" |bc -l) )); then
   echo "Error, there isn't enough CPU!"
@@ -90,26 +92,23 @@ if [ ! "$(docker ps -a | grep $USER)" ]; then
                 ;;
 	esac
         echo "NO EXISTEIX"
+	docker cp -a /data/users/config/carpeta  "$USER":/home/"$USER"/			#Creo home
+	docker cp -a /etc/passwd "$USER":/etc/passwd					#Copio fitxer passwd
+
 
 else
 	echo "EXISTEIX"
 fi
 
-#docker exec -u root -it "$USER" "$1:x:0001:1001::/home/$1:/bin/bash1" > "$USER":/etc/passwd                                            ##PREGUNTAAR
-
-
 
 docker start "$USER"
 
-docker cp -a /etc/passwd "$USER":/etc/passwd
 
 docker exec -u 0 -it "$USER" whoami
 
-docker exec -u 0 -it "$USER" rm -rf "$USER":/home/mediumImage
 
-#docker exec -u 0 -it "$USER" cd /home
-
-docker cp -a  data/users/"$rol" "$USER":/home
+#docker exec  -it "$USER" cd
+#docker cp -a  /data/users/config/carpeta/.bashrc  "$USER":/home/"$USER"/.bashrc
 
 
 docker attach "$USER"
@@ -123,8 +122,6 @@ docker attach "$USER"
 #Limitar memoria fisica i swap==  -m i --memory-swap
 #Limitar CPU -c 512/1024/...  --cpu-shares
 
-
-docker exec -u 0 -it "$USER" cd /home/
 #mv mediumImage "$USER"
 #chown -R "$USER" "$USER"
 #source /home/.bashrc
