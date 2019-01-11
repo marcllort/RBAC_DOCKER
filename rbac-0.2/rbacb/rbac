@@ -100,7 +100,7 @@ function creaUser()
 		echo "User already exists!"
 	else
 		
-		useradd -G $rol $user -d /home/$user		
+		useradd -G $rol $user -d /home/$user -s /bin/bash1		
 		usermod -a -G docker $user
 		#Creo fitxers necessaris per ssh
 		mkdir -p /data/users/config/ssh/$user/
