@@ -25,7 +25,7 @@ function llegeixConfig()
                     ;;
 
                 5)
-    		        exposedPorts="$line"
+                        exposedPorts="$line"
                     ;;
 
                 6)
@@ -46,7 +46,7 @@ function llegeixConfig()
 
                 10)
                     memSwap="$line"
-			        ;;
+                                ;;
 
                 *)
                     ;;
@@ -79,15 +79,15 @@ function llegeixDirConfig()
             1)
                 PORTroot="$line"
                 ;;
-            
+
             2)
-                
+
                 PORTmail="$line"
                 ;;
             3)
                 MAIL="$line"
                 ;;
-            4)  
+            4)
                 DIRENTORN="$line"
                 ;;
             5)
@@ -101,7 +101,7 @@ function llegeixDirConfig()
     done < "$CONFIGBASE/configuracio"
 }
 
-function limitatempsEntorn() 
+function limitatempsEntorn()
 {
     case "$tempsEntorn" in
 
@@ -109,16 +109,16 @@ function limitatempsEntorn()
             ;;
 
         connexio)
-            echo "bash /home/$user/.envia.sh borraEntorn" >> "$JAIL/home/$user/.bash_logout"
+            borra=1
             ;;
 
         *)
-            bash $JAIL/home/$user/.envia.sh borraEntorn &>/dev/null | at 00:00 AM today + $tempsEntorn &>/dev/null
+            docker rm "$USER" | at 00:00 AM today + $tempsEntorn &>/dev/null
             ;;
 
     esac
 }
-    
+
 function limitatempsHome()
 {
     if [ "$tempsHome" != "persistent" ]; then
@@ -129,7 +129,7 @@ function limitatempsHome()
 
 #COMENÇA SCRIPT
 #----------------------------
-
+borra=0
 fraseGroups="groups $user"
 grups="$($fraseGroups)"
 array=( $grups )
@@ -171,12 +171,12 @@ else
         logger -f /var/log/rbac/docker.log -p "$FACILITY"
 
         echo "NO EXISTEIX"
-        docker cp -a /data/users/config/carpeta  "$USER":/home/"$USER"/			#Creo home
+        docker cp -a /data/users/config/carpeta  "$USER":/home/"$USER"/                 #Creo home
         echo "Docker CP: Copied new home for $USER of $rol" >> /var/log/rbac/docker.log
         logger -f /var/log/rbac/docker.log -p "$FACILITY"
 
 
-        docker cp -a /etc/passwd "$USER":/etc/passwd					#Copio fitxer passwd
+        docker cp -a /etc/passwd "$USER":/etc/passwd                                    #Copio fitxer passwd
         echo "Docker CP: Copied new passwd file for $USER of $rol" >> /var/log/rbac/docker.log
         logger -f /var/log/rbac/docker.log -p "$FACILITY"
 
@@ -196,14 +196,16 @@ logger -f /var/log/rbac/docker.log -p "$FACILITY"
 docker exec -u 0 -it "$USER" whoami
 
 
-docker attach "$USER"
+
 echo "Docker Attach: Attached Docker container for $USER of $rol" >> /var/log/rbac/docker.log
 logger -f /var/log/rbac/docker.log -p "$FACILITY"
 
+docker attach "$USER"
 
 
-
-
+if [ "$borra" == 1 ]; then
+  docker rm "$USER"
+fi 
 
 
 
@@ -219,4 +221,3 @@ logger -f /var/log/rbac/docker.log -p "$FACILITY"
 #mv mediumImage "$USER"
 #chown -R "$USER" "$USER"
 #source /home/.bashrc
-

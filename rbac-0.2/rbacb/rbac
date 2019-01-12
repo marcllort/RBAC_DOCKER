@@ -362,7 +362,7 @@ direccioBashrc=0
 JAIL=/data/users/$rol/$user
 JAIL_BIN=$JAIL/bin/
 CONFIG=/data/users/config
-
+CONFIGBASE=/data/users
 
 
 #SCRIPT
@@ -391,10 +391,15 @@ case "$function" in
                 help
                 ;;
         "-u" |"--update")
-                update
-                echo "UPDATE: Docker images updated" >> /var/log/rbac/docker.log
-                logger -f /var/log/rbac/docker.log -p "$FACILITY"
-                ;;
+		if [ $# -lt 3 ]
+		then
+			echo "Error, falten arguments"
+		else
+                	update
+                	echo "UPDATE: Docker images updated" >> /var/log/rbac/docker.log
+                	logger -f /var/log/rbac/docker.log -p "$FACILITY"
+               fi
+		 ;;
         *)
                 echo "rbac: invalid command."
                 echo "Try: 'rbac --help' for more information."
