@@ -218,8 +218,6 @@ function creaEnviroment()
     case "$rol" in
         datastore)
 
-            limitatempsEntorn
-            limitatempsHome
             ;;
         
         advanced)
@@ -231,8 +229,7 @@ function creaEnviroment()
          
         *)
             copiaProgrames
-            limitatempsEntorn
-            limitatempsHome
+        
  
 	esac
 
