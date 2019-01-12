@@ -22,27 +22,32 @@ function llegeixConfig()
                     ;;
                 4)
                     publishPorts="$line"
-                        ;;
+                    ;;
 
                 5)
-    		    exposedPorts="$line"
-                        ;;
+    		        exposedPorts="$line"
+                    ;;
 
                 6)
-                        bridged="$line"
-                        ;;
+                    bridged="$line"
+                    ;;
+
                 7)
-                        cpu="$line"
-                        ;;
+                    cpu="$line"
+                    ;;
+
                 8)
-                        cpuShares="$line"
-                        ;;
+                    cpuShares="$line"
+                    ;;
+
                 9)
-                        memFisica="$line"
-                        ;;
+                    memFisica="$line"
+                    ;;
+
                 10)
-                        memSwap="$line"
-			;;
+                    memSwap="$line"
+			        ;;
+
                 *)
                     ;;
             esac
@@ -51,11 +56,52 @@ function llegeixConfig()
         done < "$CONFIG/$rol"
     else
 
-echo "$CONFIG/$rol"
+        echo "$CONFIG/$rol"
         echo "Error, no existeix el fitxer configuracio del rol: $conf"
         exit
     fi
 }
+
+function llegeixDirConfig()
+{
+    if [ ! -f "$CONFIGBASE/configuracio" ]        #si no esta configuracio, entorn no existeix i cal crearlo
+    then
+        echo "Fitxer de configuració base inexistent"
+    fi
+
+    i=0
+    while read -r line; do
+        case "$i" in
+            0)
+                CONFIG="$line"
+                ;;
+
+            1)
+                PORTroot="$line"
+                ;;
+            
+            2)
+                
+                PORTmail="$line"
+                ;;
+            3)
+                MAIL="$line"
+                ;;
+            4)  
+                DIRENTORN="$line"
+                ;;
+            5)
+                FACILITY="$line"
+                ;;
+
+            *)
+                ;;
+        esac
+        i=$((i+1))
+    done < "$CONFIGBASE/configuracio"
+}
+
+
 
 
 #COMENÇA SCRIPT
@@ -70,6 +116,8 @@ rol="${array[2]}"
 CONFIG=/data/users/config
 
 llegeixConfig
+llegeixDirConfig
+
 
 cp="$(nproc)"
 
@@ -77,6 +125,7 @@ cp="$(nproc)"
 if (( $(echo "$cp <  $cpu" |bc -l) )); then
   echo "Error, there isn't enough CPU!"
 fi
+
 if [ ! "$(docker ps -a | grep $USER)" ]; then
 	case "$USER" in
 		"datastore")
@@ -91,33 +140,51 @@ if [ ! "$(docker ps -a | grep $USER)" ]; then
                 	docker create -i -t --user "$USER" --name="$USER" -p "$exposedPorts"  -m "$memFisica" --memory-swap "$memSwap" "$rol" /bin/bash
                 ;;
 	esac
-        echo "NO EXISTEIX"
-	docker cp -a /data/users/config/carpeta  "$USER":/home/"$USER"/			#Creo home
-	docker cp -a /etc/passwd "$USER":/etc/passwd					#Copio fitxer passwd
 
+    echo "Docker Create: Docker container for $USER of $rol created" >> /var/log/rbac/docker.log
+    logger -f /var/log/rbac/docker.log -p "$FACILITY"
+
+    echo "NO EXISTEIX"
+	docker cp -a /data/users/config/carpeta  "$USER":/home/"$USER"/			#Creo home
+    echo "Docker CP: Copied new home for $USER of $rol" >> /var/log/rbac/docker.log
+    logger -f /var/log/rbac/docker.log -p "$FACILITY"
+
+
+	docker cp -a /etc/passwd "$USER":/etc/passwd					#Copio fitxer passwd
+    echo "Docker CP: Copied new passwd file for $USER of $rol" >> /var/log/rbac/docker.log
+    logger -f /var/log/rbac/docker.log -p "$FACILITY"
 
 else
 	echo "EXISTEIX"
+    echo "Docker Info: Container for $USER of $rol already exists. Starting it..." >> /var/log/rbac/docker.log
+    logger -f /var/log/rbac/docker.log -p "$FACILITY"
 fi
 
 
 docker start "$USER"
+echo "Docker Start: Started Docker container for $USER of $rol" >> /var/log/rbac/docker.log
+logger -f /var/log/rbac/docker.log -p "$FACILITY"
 
 
 docker exec -u 0 -it "$USER" whoami
 
 
+docker attach "$USER"
+echo "Docker Attach: Attached Docker container for $USER of $rol" >> /var/log/rbac/docker.log
+logger -f /var/log/rbac/docker.log -p "$FACILITY"
+
+
+
+
+
+
+
+
+
+
+
 #docker exec  -it "$USER" cd
 #docker cp -a  /data/users/config/carpeta/.bashrc  "$USER":/home/"$USER"/.bashrc
-
-
-docker attach "$USER"
-
-
-
-
-
-
 
 #Limitar memoria fisica i swap==  -m i --memory-swap
 #Limitar CPU -c 512/1024/...  --cpu-shares
