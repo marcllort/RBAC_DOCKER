@@ -120,46 +120,50 @@ llegeixDirConfig
 
 
 cp="$(nproc)"
-
+if [ "$cp" != 2 ]; then
+    cpu=$(echo $cpu*$cp | bc)
+    cpu=$(echo $cpu/2 | bc)
+fi
 
 if (( $(echo "$cp <  $cpu" |bc -l) )); then
   echo "Error, there isn't enough CPU!"
-fi
-
-if [ ! "$(docker ps -a | grep $USER)" ]; then
-	case "$USER" in
-		"datastore")
-			docker create -i -t --user "$USER" --name="$USER" -m "$memFisica" --memory-swap "$memSwap" datastore /bin/bash
-		;;
-
-		"visitor")
-                	docker create -i -t --user "$USER" --name="$USER" -m "$memFisica" --memory-swap "$memSwap" visitor /bin/bash
-                ;;
-
-		*)
-                	docker create -i -t --user "$USER" --name="$USER" -p "$exposedPorts"  -m "$memFisica" --memory-swap "$memSwap" "$rol" /bin/bash
-                ;;
-	esac
-
-    echo "Docker Create: Docker container for $USER of $rol created" >> /var/log/rbac/docker.log
-    logger -f /var/log/rbac/docker.log -p "$FACILITY"
-
-    echo "NO EXISTEIX"
-	docker cp -a /data/users/config/carpeta  "$USER":/home/"$USER"/			#Creo home
-    echo "Docker CP: Copied new home for $USER of $rol" >> /var/log/rbac/docker.log
-    logger -f /var/log/rbac/docker.log -p "$FACILITY"
-
-
-	docker cp -a /etc/passwd "$USER":/etc/passwd					#Copio fitxer passwd
-    echo "Docker CP: Copied new passwd file for $USER of $rol" >> /var/log/rbac/docker.log
-    logger -f /var/log/rbac/docker.log -p "$FACILITY"
-
 else
-	echo "EXISTEIX"
-    echo "Docker Info: Container for $USER of $rol already exists. Starting it..." >> /var/log/rbac/docker.log
-    logger -f /var/log/rbac/docker.log -p "$FACILITY"
-fi
 
+    if [ ! "$(docker ps -a | grep $USER)" ]; then
+        case "$USER" in
+            "datastore")
+                docker create -i -t --user "$USER" --name="$USER" -m "$memFisica" --memory-swap "$memSwap" --limit-cpu "$cpu" datastore /bin/bash
+            ;;
+
+            "visitor")
+                        docker create -i -t --user "$USER" --name="$USER" -m "$memFisica" --memory-swap "$memSwap" --limit-cpu "$cpu" visitor /bin/bash
+                    ;;
+
+            *)
+                        docker create -i -t --user "$USER" --name="$USER" -p "$exposedPorts"  -m "$memFisica" --memory-swap "$memSwap" --limit-cpu "$cpu" "$rol" /bin/bash
+                    ;;
+        esac
+
+        echo "Docker Create: Docker container for $USER of $rol created" >> /var/log/rbac/docker.log
+        logger -f /var/log/rbac/docker.log -p "$FACILITY"
+
+        echo "NO EXISTEIX"
+        docker cp -a /data/users/config/carpeta  "$USER":/home/"$USER"/			#Creo home
+        echo "Docker CP: Copied new home for $USER of $rol" >> /var/log/rbac/docker.log
+        logger -f /var/log/rbac/docker.log -p "$FACILITY"
+
+
+        docker cp -a /etc/passwd "$USER":/etc/passwd					#Copio fitxer passwd
+        echo "Docker CP: Copied new passwd file for $USER of $rol" >> /var/log/rbac/docker.log
+        logger -f /var/log/rbac/docker.log -p "$FACILITY"
+
+    else
+        echo "EXISTEIX"
+        echo "Docker Info: Container for $USER of $rol already exists. Starting it..." >> /var/log/rbac/docker.log
+        logger -f /var/log/rbac/docker.log -p "$FACILITY"
+    fi
+
+fi
 
 docker start "$USER"
 echo "Docker Start: Started Docker container for $USER of $rol" >> /var/log/rbac/docker.log
