@@ -87,7 +87,7 @@ function afegeixConfig()
 {
         cat <<EOT >> /etc/ssh/sshd_config
 
-Match group $rol
+        Match group $rol
         ChrootDirectory /data/users/$rol/%u/
         PubkeyAuthentication yes
         AuthenticationMethods publickey,keyboard-interactive
@@ -216,25 +216,128 @@ function remove()
 
         esac
 }
+
+
 function update()
 {
         userc=$user
 	nom=$rol
-#Fer que crei enviroments? + tornar a crear totes les imatges docker
+        #Fer que crei enviroments? + tornar a crear totes les imatges docker
         case "$userc" in
-        "-m" | "--medium")
-                user="mediumImage"
-                rol="medium"
-                creaUser
-		cd /home/"$nom"/rbac-0.2/rbacb/rbac_dir
-		bash removeEnviroment mediumImage
-                bash enviroment mediumImage
-                cd /data/users/medium/mediumImage
-                sudo tar -c . | sudo docker import - medium
-		;;
-		esac
-		echo "Update"
+                
+                "-d" | "--datastore")
+                        user="dataImage"
+                        rol="data"
+                        creaUser
+                        cd /home/"$nom"/rbac-0.2/rbacb/rbac_dir
+                        bash removeEnviroment dataImage
+                        bash enviroment dataImage
+                        cd /data/users/data/dataImage
+                        sudo tar -c . | sudo docker import - data
+                        echo "Update $rol"
+                        ;;
+
+                "-v" | "--visitor")
+                        user="visitorImage"
+                        rol="visitor"
+                        creaUser
+                        cd /home/"$nom"/rbac-0.2/rbacb/rbac_dir
+                        bash removeEnviroment visitorImage
+                        bash enviroment visitorImage
+                        cd /data/users/visitor/visitorImage
+                        sudo tar -c . | sudo docker import - visitor
+                        echo "Update $rol"
+                        ;;
+
+                "-b" | "--basic")
+                        user="basicImage"
+                        rol="basic"
+                        creaUser
+                        cd /home/"$nom"/rbac-0.2/rbacb/rbac_dir
+                        bash removeEnviroment basicImage
+                        bash enviroment basicImage
+                        cd /data/users/basic/basicImage
+                        sudo tar -c . | sudo docker import - basic
+                        echo "Update $rol"
+                        ;;
+
+                "-m" | "--medium")
+                        user="mediumImage"
+                        rol="medium"
+                        creaUser
+                        cd /home/"$nom"/rbac-0.2/rbacb/rbac_dir
+                        bash removeEnviroment mediumImage
+                        bash enviroment mediumImage
+                        cd /data/users/medium/mediumImage
+                        sudo tar -c . | sudo docker import - medium
+                        echo "Update $rol"
+                        ;;
+
+                "-a" | "--advanced")
+                        user="advancedImage"
+                        rol="advanced"
+                        creaUser
+                        cd /home/"$nom"/rbac-0.2/rbacb/rbac_dir
+                        bash removeEnviroment advancedImage
+                        bash enviroment advancedImage
+                        cd /data/users/advanced/advancedImage
+                        sudo tar -c . | sudo docker import - advanced
+                        echo "Update $rol"
+                        ;;  
+
+                *)      
+                        user="dataImage"
+                        rol="data"
+                        creaUser
+                        cd /home/"$nom"/rbac-0.2/rbacb/rbac_dir
+                        bash removeEnviroment dataImage
+                        bash enviroment dataImage
+                        cd /data/users/data/dataImage
+                        sudo tar -c . | sudo docker import - data
+                        echo "Update $rol"
+                        user="visitorImage"
+                        rol="visitor"
+                        creaUser
+                        cd /home/"$nom"/rbac-0.2/rbacb/rbac_dir
+                        bash removeEnviroment visitorImage
+                        bash enviroment visitorImage
+                        cd /data/users/visitor/visitorImage
+                        sudo tar -c . | sudo docker import - visitor
+                        echo "Update $rol"
+                        user="basicImage"
+                        rol="basic"
+                        creaUser
+                        cd /home/"$nom"/rbac-0.2/rbacb/rbac_dir
+                        bash removeEnviroment basicImage
+                        bash enviroment basicImage
+                        cd /data/users/basic/basicImage
+                        sudo tar -c . | sudo docker import - basic
+                        echo "Update $rol"
+                        user="mediumImage"
+                        rol="medium"
+                        creaUser
+                        cd /home/"$nom"/rbac-0.2/rbacb/rbac_dir
+                        bash removeEnviroment mediumImage
+                        bash enviroment mediumImage
+                        cd /data/users/medium/mediumImage
+                        sudo tar -c . | sudo docker import - medium
+                        echo "Update $rol"
+                        user="advancedImage"
+                        rol="advanced"
+                        creaUser
+                        cd /home/"$nom"/rbac-0.2/rbacb/rbac_dir
+                        bash removeEnviroment advancedImage
+                        bash enviroment advancedImage
+                        cd /data/users/advanced/advancedImage
+                        sudo tar -c . | sudo docker import - advanced
+                        echo "Update $rol"
+                        ;;
+
+
+	esac
+		
 }
+
 
 function help {
         echo "Usage: rbac [COMMAND]"
