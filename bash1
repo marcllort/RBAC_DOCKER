@@ -60,12 +60,12 @@ echo "$CONFIG/$rol"
 
 #COMENÇA SCRIPT
 #----------------------------
-echo "Hola"
+
 fraseGroups="groups $user"
 grups="$($fraseGroups)"
 array=( $grups )
 rol="${array[2]}"
-echo "AAA $rol"
+
 
 CONFIG=/data/users/config
 
@@ -76,31 +76,43 @@ if (( $(echo "$cp <  $cpu" |bc -l) )); then
   echo "Error, there isn't enough CPU!"
 fi
 if [ ! "$(docker ps -a | grep $USER)" ]; then
+	case "$USER" in
+		"datastore")
+			docker create -i -t --user "$USER" --name="$USER" -m "$memFisica" --memory-swap "$memSwap" datastore /bin/bash
+		;;
 
-	docker create -i -t --user "$USER" --name="$USER"  -p "$exposedPorts"  -m "$memFisica" --memory-swap "$memSwap" medium /bin/bash
+		"visitor")
+                	docker create -i -t --user "$USER" --name="$USER" -m "$memFisica" --memory-swap "$memSwap" visitor /bin/bash
+                ;;
+
+		*)
+                	docker create -i -t --user "$USER" --name="$USER" -p "$exposedPorts"  -m "$memFisica" --memory-swap "$memSwap" "$rol" /bin/bash
+                ;;
+	esac
         echo "NO EXISTEIX"
 
 else
 	echo "EXISTEIX"
 fi
 
-sudo docker exec -it "$USER" "$1:x:0001:1001::/home/$1:/bin/bash1" > /etc/passwd                                            ##PREGUNTAAR
+#docker exec -u root -it "$USER" "$1:x:0001:1001::/home/$1:/bin/bash1" > "$USER":/etc/passwd                                            ##PREGUNTAAR
 
 
-docker exec -it "$USER" cd /home/
-mv mediumImage "$USER"
-chown -R "$USER" "$USER"
 
+docker start "$USER"
+
+docker cp -a /etc/passwd "$USER":/etc/passwd
+
+docker exec -u 0 -it "$USER" whoami
+
+docker exec -u 0 -it "$USER" rm -rf "$USER":/home/mediumImage
+
+#docker exec -u 0 -it "$USER" cd /home
+
+docker cp -a  data/users/"$rol" "$USER":/home
 
 
 docker attach "$USER"
-
-docker exec -it "$USER" service /home/.bashrc                                            ##PREGUNTAAR
-docker exec -it "$USER" cd /home/
-mv mediumImage "$USER"
-chown -R "$USER" "$USER"
-docker start "$USER"
-
 
 
 
@@ -111,4 +123,9 @@ docker start "$USER"
 #Limitar memoria fisica i swap==  -m i --memory-swap
 #Limitar CPU -c 512/1024/...  --cpu-shares
 
+
+docker exec -u 0 -it "$USER" cd /home/
+#mv mediumImage "$USER"
+#chown -R "$USER" "$USER"
+#source /home/.bashrc
 
