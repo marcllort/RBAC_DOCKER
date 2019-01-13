@@ -78,7 +78,7 @@ function creaConfigs()
     0
     x
     x
-    bridged
+    x
     0.5
     512
     50m
@@ -92,7 +92,7 @@ EOT
     1 day
     x
     x
-    bridged
+    visitor
     0.75
     512
     150m
@@ -104,9 +104,9 @@ EOT
     /etc/skel
     1 day
     persistent
-    x
+    6000
     30000
-    bridged
+    compartida
     1
     1024
     200m
@@ -118,9 +118,9 @@ EOT
     /etc/skel
     1 day
     persistent
-    x
+    6000
     30000
-    bridged
+    compartida
     1.5
     1536
     500m
@@ -134,9 +134,9 @@ EOT
     /etc/skel
     persistent
     persistent
-    x
+    6000
     30000
-    bridged
+    compartida
     2
     2048
     750m
