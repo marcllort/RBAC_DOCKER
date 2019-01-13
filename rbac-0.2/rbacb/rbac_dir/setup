@@ -73,6 +73,7 @@ function creaConfigs()
     cd /data/users/config
     
     cat <<EOT > datastore
+    
     /etc/skel
     0
     0
