@@ -142,7 +142,7 @@ function reset {
 	echo "Your enviroment will be reseted. It will take about 10s."
 	confirma
 
-	bash /home/$user/.envia.sh reset
+	bash /home/$user/.envia.sh reset "$rol"
 }
 
 function list {
