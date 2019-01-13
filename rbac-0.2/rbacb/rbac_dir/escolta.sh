@@ -61,9 +61,11 @@ while [ true ]; do
     case $funcio in
         
         clean)
+            echo "FUNCIONA"
             docker rm "$user"
             ;;
         reset)
+            echo "FUNCIONA"
             docker rm "$user"
             ;;
         borraHomeCon)

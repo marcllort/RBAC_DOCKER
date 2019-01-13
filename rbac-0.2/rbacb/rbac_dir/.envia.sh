@@ -102,6 +102,6 @@ CONFIGBASE=/data/users
 llegeixDirConfig
 llegeixConfig
 
-netcat 127.0.0.1 $publishPorts -w0<<END
+netcat 127.0.0.1 $exposedPorts -w0<<END
 $(whoami)-$1
 END

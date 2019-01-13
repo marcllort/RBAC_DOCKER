@@ -150,8 +150,8 @@ function creaFitxerBase()
     cd /data/users
     cat <<EOT > configuracio
     /data/users/config
-    6000
-    6000
+    30000
+    30000
     mac12llm@gmail.com  
     /data/docker
     user.info
