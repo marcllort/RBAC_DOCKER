@@ -204,6 +204,12 @@ if [ ! -f "$JAIL/home" ]
 
         #mkdir -p $JAIL/proc
        # mount -t proc proc $JAIL/proc
+
+    else
+        mkdir -p $JAIL/
+        cp -r /usr/bin/sftp .
+        cp -r /bin/bash .
+
     fi
 
     #Posem fitxer de enviar comandes al dimoniRoot
