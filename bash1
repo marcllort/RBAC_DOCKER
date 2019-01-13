@@ -23,30 +23,24 @@ function llegeixConfig()
                 4)
                     publishPorts="$line"
                     ;;
-
                 5)
-                        exposedPorts="$line"
+                    exposedPorts="$line"
                     ;;
-
                 6)
                     bridged="$line"
                     ;;
-
                 7)
                     cpu="$line"
                     ;;
-
                 8)
                     cpuShares="$line"
                     ;;
-
                 9)
                     memFisica="$line"
                     ;;
-
                 10)
                     memSwap="$line"
-                                ;;
+                    ;;
 
                 *)
                     ;;
@@ -75,13 +69,10 @@ function llegeixDirConfig()
             0)
                 CONFIG="$line"
                 ;;
-
             1)
                 PORTroot="$line"
                 ;;
-
             2)
-
                 PORTmail="$line"
                 ;;
             3)
@@ -137,10 +128,15 @@ rol="${array[2]}"
 
 
 CONFIG=/data/users/config
+CONFIGBASE=/data/users
+
 
 llegeixConfig
 llegeixDirConfig
 
+if [ ! "$(docker network ls | grep $bridged)" ]; then
+    docker network create -d bridge "$bridged"
+fi
 
 cp="$(nproc)"
 if [ "$cp" != 2 ]; then
@@ -155,23 +151,24 @@ else
     if [ ! "$(docker ps -a | grep $USER)" ]; then
         case "$USER" in
             "datastore")
-                docker create -i -t --user "$USER" --name="$USER" -m "$memFisica" --memory-swap "$memSwap" --cpus "$cpu" --cpu-shares "$cpuShares" datastore /bin/bash
+                docker create -i -t --user "$USER" --name="$USER" -m "$memFisica" --memory-swap "$memSwap" --cpus "$cpu" --cpu-shares "$cpuShares" --network "$bridged" datastore /bin/bash
             ;;
 
             "visitor")
-                        docker create -i -t --user "$USER" --name="$USER" -m "$memFisica" --memory-swap "$memSwap" --cpus "$cpu" --cpu-shares "$cpuShares" visitor /bin/bash
-                    ;;
+                docker create -i -t --user "$USER" --name="$USER" -m "$memFisica" --memory-swap "$memSwap" --cpus "$cpu" --cpu-shares "$cpuShares" --network "$bridged" visitor /bin/bash
+            ;;
 
             *)
-                        docker create -i -t --user "$USER" --name="$USER" -p "$exposedPorts"  -m "$memFisica" --memory-swap "$memSwap" --cpus "$cpu" --cpu-shares "$cpuShares" "$rol" /bin/bash
-                    ;;
+                docker create -i -t --user "$USER" --name="$USER" -p "$publishPorts" --expose "$exposedPorts" -m "$memFisica" --memory-swap "$memSwap" --cpus "$cpu" --cpu-shares "$cpuShares" --network "$bridged" "$rol" /bin/bash
+            ;;
+
         esac
 
         echo "Docker Create: Docker container for $USER of $rol created" >> /var/log/rbac/docker.log
         logger -f /var/log/rbac/docker.log -p "$FACILITY"
 
         echo "NO EXISTEIX"
-        docker cp -a /data/users/config/carpeta  "$USER":/home/"$USER"/                 #Creo home
+        docker cp -a /data/carpeta  "$USER":/home/"$USER"/                 #Creo home
         echo "Docker CP: Copied new home for $USER of $rol" >> /var/log/rbac/docker.log
         logger -f /var/log/rbac/docker.log -p "$FACILITY"
 
