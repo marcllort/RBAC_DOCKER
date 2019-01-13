@@ -133,6 +133,7 @@ function copiaProgrames()
     copy_binary whoami
     copy_binary groups
     copy_binary netcat
+    copy_binary docker
     
     #Fitxers segons el rol
     for element in "${arrayProgrames[@]}"
