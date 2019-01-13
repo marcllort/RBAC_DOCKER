@@ -232,7 +232,7 @@ function update()
                         cd /home/"$nom"/rbac-0.2/rbacb/rbac_dir
                         bash removeEnviroment dataImage
                         bash enviroment dataImage
-                        cd /data/users/data/dataImage
+                        cd /data/users/datastore/dataImage
                         sudo tar -c . | sudo docker import - datastore
                         echo "Update $rol"
                         ;;
