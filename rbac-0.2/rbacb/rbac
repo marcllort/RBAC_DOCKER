@@ -206,7 +206,7 @@ function remove()
                         userdel $user
                         funciona=$?
                         if [ $funciona -eq 0 ]; then
-                                umount $JAIL/proc
+                                #umount $JAIL/proc
                                 rm -rf $JAIL/
                                 echo "User deleted"
                         else

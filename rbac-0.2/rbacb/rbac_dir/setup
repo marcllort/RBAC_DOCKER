@@ -72,7 +72,7 @@ function creaConfigs()
 
     cd /data/users/config
     
-    cat <<EOT >> datastore
+    cat <<EOT > datastore
     /etc/skel
     0
     0
@@ -85,7 +85,7 @@ function creaConfigs()
     100m
 EOT
 
-    cat <<EOT >> visitor
+    cat <<EOT > visitor
     bash,touch,mkdir,rm,ls,vim,nano
     /etc/skel
     1 day
@@ -99,7 +99,7 @@ EOT
     300m
 EOT
 
-    cat <<EOT >> basic
+    cat <<EOT > basic
     bash,touch,mkdir,rm,ls,vim,nano,gcc,make,kill
     /etc/skel
     1 day
@@ -113,7 +113,7 @@ EOT
     400m
 EOT
 
-    cat <<EOT >> medium
+    cat <<EOT > medium
     bash,touch,mkdir,rm,ls,vim,nano,gcc,make,kill,java,ln,ps,python,pip,valgrind,grep,awk,sed
     /etc/skel
     1 day
@@ -129,7 +129,7 @@ EOT
 
     #cal afegir dos mes al advanced
 
-    cat <<EOT >> advanced
+    cat <<EOT > advanced
     bash,touch,mkdir,rm,ls,vim,nano,gcc,make,kill,java,ln,ps,python3,pip,valgrind,grep,awk,sed,chmod,chown,strace,cat,mv,rm,rmdir,clear
     /etc/skel
     persistent
@@ -147,7 +147,7 @@ EOT
 function creaFitxerBase()
 {
     cd /data/users
-    cat <<EOT >> configuracio
+    cat <<EOT > configuracio
     /data/users/config
     4444
     5555
@@ -162,7 +162,7 @@ EOT
 function creaSSH()
 {
     mkdir -p /data/users/config/ssh/$admin/
-    cat <<EOT >> /data/users/config/ssh/$admin/authorized_keys
+    cat <<EOT > /data/users/config/ssh/$admin/authorized_keys
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSVBbuiFnNig/DOY5hbV+XjDAaSwEv/+JXpWK/CyyjRrYmLbUG1SzYqoqs5GnX2QBUf1zVBrCvnFcos37uAHXQpeTXnnMi1wzREO7mW6XTRt4TY3rusPwuQkcD3+RT14Xm5f9Nw1wY0fDAy5wBAoCe8ir4VUkWWBkaeQ4Mb0Wh2ecspwgg5I4nY24qJIhX01DqEvzP1LQY8/lKn57HUmzFLpRQipfNDcx/4krGdgIeDdwJv8vOK03o8razVMKs11Af+lhcHsBWwDSFgo1owfsvdMLQX9THy9XqpgvQXC7rAr9C/99eXcBPizAKIpnxytjiU3pIAV/ZTTsT7v3RHnq5 alexalmansa@alex.local
 
 EOT
