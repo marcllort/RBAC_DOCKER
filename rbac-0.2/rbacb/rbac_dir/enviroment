@@ -176,8 +176,8 @@ if [ ! -f "$JAIL/home" ]
 
     fi
     
-    if [ $rol != "datastore" ]
-    then
+    #if [ $rol != "datastore" ]
+    #then
         mkdir -p $JAIL/
         mkdir -p $JAIL/{dev,etc,lib,lib64,usr/bin,usr/sbin,usr/lib,bin}
         mknod -m 666 $JAIL/dev/null c 1 3
@@ -205,14 +205,8 @@ if [ ! -f "$JAIL/home" ]
         #mkdir -p $JAIL/proc
        # mount -t proc proc $JAIL/proc
 
-    else
-        
-        mkdir /etc
-        cp /etc/passwd /etc
-        cp -r /usr/bin/sftp .
-        cp -r /bin/bash .
 
-    fi
+    #fi
 
     #Posem fitxer de enviar comandes al dimoniRoot
 	
