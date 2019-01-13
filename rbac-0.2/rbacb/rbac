@@ -181,7 +181,7 @@ function remove()
                         echo "Deleting enviroment..."
 
                         cd $JAIL
-                        umount $JAIL/proc
+                        #umount $JAIL/proc
                         find . -maxdepth 1 ! -iname "$rol" ! -iname home -exec rm -rf {} \;
                         echo "User deleted"
 
