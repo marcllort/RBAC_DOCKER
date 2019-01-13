@@ -159,7 +159,7 @@ else
             ;;
 
             *)
-                docker create -i -t --user "$USER" --name="$USER" -p "$exposedPorts"  -m "$memFisica" --memory-swap "$memSwap" --limit-cpu "$cpu" --cpu-shares "$cpuShares" --network "$bridged" "$rol" /bin/bash
+                docker create -i -t --user "$USER" --name="$USER" -p "$publishPorts" --expose "$exposedPorts" -m "$memFisica" --memory-swap "$memSwap" --limit-cpu "$cpu" --cpu-shares "$cpuShares" --network "$bridged" "$rol" /bin/bash
             ;;
 
         esac
