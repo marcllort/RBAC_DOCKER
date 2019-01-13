@@ -198,7 +198,7 @@ if [ ! -f "$JAIL/home" ]
         cp -r /lib64 $JAIL/
         cp -r /usr/lib $JAIL/usr/
 
-        cp $CONFIG/gestioEntorn $JAIL/home/$user
+        #cp $CONFIG/gestioEntorn $JAIL/home/$user
         
 
         mkdir -p $JAIL/proc
