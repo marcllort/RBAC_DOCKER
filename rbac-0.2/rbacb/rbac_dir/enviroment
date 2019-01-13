@@ -201,7 +201,7 @@ if [ ! -f "$JAIL/home" ]
         #cp $CONFIG/gestioEntorn $JAIL/home/$user
         
 
-        mkdir -p $JAIL/proc
+        #mkdir -p $JAIL/proc
        # mount -t proc proc $JAIL/proc
     fi
 
