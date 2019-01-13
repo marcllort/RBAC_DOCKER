@@ -44,23 +44,58 @@ function llegeixDirConfig()
 
 function llegeixConfig()
 {
-    i=0
-    while read -r line; do
-        case "$i" in
-            0)
-                IFS=',' read -r -a arrayProgrames <<< "$line"
-                for element in "${arrayProgrames[@]}"
-                do
-                    echo "$element"
-                done
-                ;;
-            *)  
-                exit
-                ;;   
-        esac
-        i=$((i+1))
+  if [ -f "$CONFIG/$rol" ]       #si no esta configuracio, entorn no existeix i cal crearlo
+    then
 
-    done < "/$rol"
+        i=0
+        while read -r line; do
+            case "$i" in
+                0)
+                    IFS=',' read -r -a arrayProgrames <<< "$line"
+                    ;;
+                1)
+                    direccioBashrc="$line"
+                    ;;
+                2)
+                    tempsEntorn="$line"
+                    ;;
+                3)
+                    tempsHome="$line"
+                    ;;
+                4)
+                    publishPorts="$line"
+                    ;;
+                5)
+                    exposedPorts="$line"
+                    ;;
+                6)
+                    bridged="$line"
+                    ;;
+                7)
+                    cpu="$line"
+                    ;;
+                8)
+                    cpuShares="$line"
+                    ;;
+                9)
+                    memFisica="$line"
+                    ;;
+                10)
+                    memSwap="$line"
+                    ;;
+
+                *)
+                    ;;
+            esac
+            i=$((i+1))
+
+        done < "$CONFIG/$rol"
+    else
+
+        echo "$CONFIG/$rol"
+        echo "Error, no existeix el fitxer configuracio del rol: $conf"
+        exit
+    fi
 }
 
 function confirma {

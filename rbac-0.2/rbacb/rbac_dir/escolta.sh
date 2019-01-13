@@ -61,24 +61,20 @@ while [ true ]; do
     case $funcio in
         
         clean)
-            pkill -U $user
-            bash /data/users/config/removeEnviroment remove $user userenviroment
-            bash /data/users/config/removeEnviroment remove $user userhome
+            docker rm "$user"
             ;;
         reset)
-            bash /data/users/config/removeEnviroment remove $user userenviroment
-            bash /data/users/config/enviroment "$user" &
+            docker rm "$user"
             ;;
         borraHomeCon)
             #Mata proces bin bash de user i fa el bash
-            pkill -U $user
-            bash /data/users/config/removeEnviroment remove $user userhome &
+            docker rm "$user"
             ;;
         borraEntorn)
-            bash /data/users/config/removeEnviroment remove $user userenviroment &
+            docker rm "$user"
             ;;
         borraHome)
-            bash /data/users/config/removeEnviroment remove $user userhome &
+            docker rm "$user"
             ;;
     esac
     
