@@ -72,55 +72,56 @@ function creaConfigs()
 
     cd /data/users/config
     
-    cat <<EOT >> datastore
+    cat <<EOT > datastore
+
     /etc/skel
     0
     0
     x
     x
-    bridged
+    x
     0.5
     512
     50m
     100m
 EOT
 
-    cat <<EOT >> visitor
+    cat <<EOT > visitor
     bash,touch,mkdir,rm,ls,vim,nano
     /etc/skel
     1 day
     1 day
     x
     x
-    bridged
+    visitor
     0.75
     512
     150m
     300m
 EOT
 
-    cat <<EOT >> basic
+    cat <<EOT > basic
     bash,touch,mkdir,rm,ls,vim,nano,gcc,make,kill
     /etc/skel
     1 day
     persistent
-    x
+    6000
     30000
-    bridged
+    compartida
     1
     1024
     200m
     400m
 EOT
 
-    cat <<EOT >> medium
+    cat <<EOT > medium
     bash,touch,mkdir,rm,ls,vim,nano,gcc,make,kill,java,ln,ps,python,pip,valgrind,grep,awk,sed
     /etc/skel
     1 day
     persistent
-    x
+    6000
     30000
-    bridged
+    compartida
     1.5
     1536
     500m
@@ -129,14 +130,14 @@ EOT
 
     #cal afegir dos mes al advanced
 
-    cat <<EOT >> advanced
+    cat <<EOT > advanced
     bash,touch,mkdir,rm,ls,vim,nano,gcc,make,kill,java,ln,ps,python3,pip,valgrind,grep,awk,sed,chmod,chown,strace,cat,mv,rm,rmdir,clear
     /etc/skel
     persistent
     persistent
-    x
+    6000
     30000
-    bridged
+    compartida
     2
     2048
     750m
@@ -147,13 +148,14 @@ EOT
 function creaFitxerBase()
 {
     cd /data/users
-    cat <<EOT >> configuracio
+    cat <<EOT > configuracio
     /data/users/config
-    4444
-    5555
+    30000
+    30000
     mac12llm@gmail.com  
     /data/docker
     user.info
+    
 EOT
 } 
 
@@ -161,7 +163,7 @@ EOT
 function creaSSH()
 {
     mkdir -p /data/users/config/ssh/$admin/
-    cat <<EOT >> /data/users/config/ssh/$admin/authorized_keys
+    cat <<EOT > /data/users/config/ssh/$admin/authorized_keys
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSVBbuiFnNig/DOY5hbV+XjDAaSwEv/+JXpWK/CyyjRrYmLbUG1SzYqoqs5GnX2QBUf1zVBrCvnFcos37uAHXQpeTXnnMi1wzREO7mW6XTRt4TY3rusPwuQkcD3+RT14Xm5f9Nw1wY0fDAy5wBAoCe8ir4VUkWWBkaeQ4Mb0Wh2ecspwgg5I4nY24qJIhX01DqEvzP1LQY8/lKn57HUmzFLpRQipfNDcx/4krGdgIeDdwJv8vOK03o8razVMKs11Af+lhcHsBWwDSFgo1owfsvdMLQX9THy9XqpgvQXC7rAr9C/99eXcBPizAKIpnxytjiU3pIAV/ZTTsT7v3RHnq5 alexalmansa@alex.local
 
 EOT
@@ -175,7 +177,7 @@ EOT
 #CONSTANTS
 
 userhome="$1"
-#admin="marcllort"
+#admin="alex"
 admin="$1"
 #SCRIPT
 
@@ -201,6 +203,7 @@ creaDaemonEntorn
 #Crea el dimoni encarregat d'enviar el mail amb el request command
 creaDaemonMail
 
+creaSSH
 
 mkdir /var/log/rbac
 
@@ -213,9 +216,9 @@ chmod 666 /var/log/rbac/request.log
 
 
 echo "Copiant fitxers"
-cp -r /usr/bin/rbac_dir/.bashrc /etc/skel
-cp -r /usr/bin/rbac_dir/sshd_config /etc/ssh
-cp -r /usr/bin/rbac_dir/sshd /etc/pam.d/
+cp -r /usr/bin/rbac/rbac_dir/.bashrc /etc/skel
+cp -r /usr/bin/rbac/rbac_dir/sshd_config /etc/ssh
+cp -r /usr/bin/rbac/rbac_dir/sshd /etc/pam.d/
 
 echo "Restarting ssh service"
 service ssh restart
