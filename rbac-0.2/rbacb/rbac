@@ -233,7 +233,7 @@ function update()
                         bash removeEnviroment dataImage
                         bash enviroment dataImage
                         cd /data/users/data/dataImage
-                        sudo tar -c . | sudo docker import - data
+                        sudo tar -c . | sudo docker import - datastore
                         echo "Update $rol"
                         ;;
 
