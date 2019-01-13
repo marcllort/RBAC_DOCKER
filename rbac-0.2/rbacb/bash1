@@ -168,7 +168,7 @@ else
         logger -f /var/log/rbac/docker.log -p "$FACILITY"
 
         echo "NO EXISTEIX"
-        docker cp -a /data/users/config/carpeta  "$USER":/home/"$USER"/                 #Creo home
+        docker cp -a /data/carpeta  "$USER":/home/"$USER"/                 #Creo home
         echo "Docker CP: Copied new home for $USER of $rol" >> /var/log/rbac/docker.log
         logger -f /var/log/rbac/docker.log -p "$FACILITY"
 
