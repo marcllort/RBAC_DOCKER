@@ -139,14 +139,13 @@ if [ ! "$(docker network ls | grep $bridged)" ]; then
 fi
 
 cp="$(nproc)"
-echo "$cp"
-echo "$cpu"
+
+
 if [ "$cp" != 2 ]; then
     cpu=$(echo $cpu*$cp | bc)
 echo "$cpu"
     cpu=$(echo $cpu/2 | bc)
 fi
-echo "CPU: $cpu"
 
 if (( $(echo "$cp <  $cpu" |bc -l) )); then
   echo "Error, there isn't enough CPU!"
@@ -155,7 +154,6 @@ else
     if [ ! "$(docker ps -a | grep $USER)" ]; then
         case "$rol" in
             "datastore")
-echo"EeEEEEEEEEEEEEEEEEEEEEEEE"
                 docker create -i -t --name="$USER" -m "$memFisica" --memory-swap "$memSwap" --cpus "$cpu" --cpu-shares "$cpuShares" datastore /usr/bin/sftp
             ;;
 
@@ -181,7 +179,7 @@ echo"EeEEEEEEEEEEEEEEEEEEEEEEE"
 
 	        docker cp -a /etc/passwd "$USER":/etc/passwd                                    #Copio fitxer passwd
 	        echo "Docker CP: Copied new passwd file for $USER of $rol" >> /var/log/rbac/docker.log
-	       logger -f /var/log/rbac/docker.log -p "$FACILITY"
+	        logger -f /var/log/rbac/docker.log -p "$FACILITY"
 	fi
 
     else
