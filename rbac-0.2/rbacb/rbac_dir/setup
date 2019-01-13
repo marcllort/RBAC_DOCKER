@@ -215,9 +215,9 @@ chmod 666 /var/log/rbac/request.log
 
 
 echo "Copiant fitxers"
-cp -r /usr/bin/rbac_dir/.bashrc /etc/skel
-cp -r /usr/bin/rbac_dir/sshd_config /etc/ssh
-cp -r /usr/bin/rbac_dir/sshd /etc/pam.d/
+cp -r /usr/bin/rbac/rbac_dir/.bashrc /etc/skel
+cp -r /usr/bin/rbac/rbac_dir/sshd_config /etc/ssh
+cp -r /usr/bin/rbac/rbac_dir/sshd /etc/pam.d/
 
 echo "Restarting ssh service"
 service ssh restart

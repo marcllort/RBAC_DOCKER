@@ -168,7 +168,7 @@ function limitatempsHome()
 
 function copiaFitxers()
 {
-    if [ ! -f "$JAIL/home" ]
+if [ ! -f "$JAIL/home" ]
     then
         #Poso skel a la home
         mkdir -p $JAIL/home
