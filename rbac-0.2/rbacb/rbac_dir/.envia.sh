@@ -2,7 +2,7 @@
 
 function llegeixDirConfig()
 {
-    if [ ! -f "$CONFIGBASE/configuracio" ]        #si no esta configuracio, entorn no existeix i cal crearlo
+    if [ ! -f "/configuracio" ]        #si no esta configuracio, entorn no existeix i cal crearlo
     then
         echo "Fitxer de configuració base inexistent"
     fi
@@ -33,13 +33,13 @@ function llegeixDirConfig()
                 ;;
         esac
         i=$((i+1))
-    done < "$CONFIGBASE/configuracio"
+    done < "/configuracio"
 }
 
 
 function llegeixConfig()
 {
-  if [ -f "$CONFIG/$rol" ]       #si no esta configuracio, entorn no existeix i cal crearlo
+  if [ -f "/$rol" ]       #si no esta configuracio, entorn no existeix i cal crearlo
     then
 
         i=0
@@ -84,10 +84,10 @@ function llegeixConfig()
             esac
             i=$((i+1))
 
-        done < "$CONFIG/$rol"
+        done < "/$rol"
     else
 
-        echo "$CONFIG/$rol"
+        
         echo "Error, no existeix el fitxer configuracio del rol: $conf"
         exit
     fi
