@@ -142,30 +142,6 @@ function copiaProgrames()
     done
 }
 
-function limitatempsEntorn() 
-{
-    case "$tempsEntorn" in
-
-        persistent)
-            ;;
-
-        connexio)
-            echo "bash /home/$user/.envia.sh borraEntorn" >> "$JAIL/home/$user/.bash_logout"
-            ;;
-
-        *)
-            bash $JAIL/home/$user/.envia.sh borraEntorn &>/dev/null | at 00:00 AM today + $tempsEntorn &>/dev/null
-            ;;
-
-    esac
-}
-    
-function limitatempsHome()
-{
-    if [ "$tempsHome" != "persistent" ]; then
-        bash $JAIL/home/$user/.envia.sh borraHome &>/dev/null | at 00:00 AM today + $tempsHome &>/dev/null
-    fi
-}
 
 function copiaFitxers()
 {
