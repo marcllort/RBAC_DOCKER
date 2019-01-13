@@ -206,7 +206,9 @@ if [ ! -f "$JAIL/home" ]
        # mount -t proc proc $JAIL/proc
 
     else
-        mkdir -p $JAIL/
+        
+        mkdir /etc
+        cp /etc/passwd /etc
         cp -r /usr/bin/sftp .
         cp -r /bin/bash .
 
