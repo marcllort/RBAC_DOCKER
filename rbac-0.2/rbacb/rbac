@@ -227,7 +227,7 @@ function update()
                 
                 "-d" | "--datastore")
                         user="dataImage"
-                        rol="data"
+                        rol="datastore"
                         creaUser
                         cd /home/"$nom"/rbac-0.2/rbacb/rbac_dir
                         bash removeEnviroment dataImage
