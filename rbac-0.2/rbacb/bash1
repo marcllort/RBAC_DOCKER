@@ -23,30 +23,24 @@ function llegeixConfig()
                 4)
                     publishPorts="$line"
                     ;;
-
                 5)
                     exposedPorts="$line"
                     ;;
-
                 6)
                     bridged="$line"
                     ;;
-
                 7)
                     cpu="$line"
                     ;;
-
                 8)
                     cpuShares="$line"
                     ;;
-
                 9)
                     memFisica="$line"
                     ;;
-
                 10)
                     memSwap="$line"
-                                ;;
+                    ;;
 
                 *)
                     ;;
@@ -75,13 +69,10 @@ function llegeixDirConfig()
             0)
                 CONFIG="$line"
                 ;;
-
             1)
                 PORTroot="$line"
                 ;;
-
             2)
-
                 PORTmail="$line"
                 ;;
             3)
@@ -137,6 +128,8 @@ rol="${array[2]}"
 
 
 CONFIG=/data/users/config
+CONFIGBASE=/data/users
+
 
 llegeixConfig
 llegeixDirConfig
@@ -168,7 +161,7 @@ else
             *)
                 docker create -i -t --user "$USER" --name="$USER" -p "$exposedPorts"  -m "$memFisica" --memory-swap "$memSwap" --limit-cpu "$cpu" --cpu-shares "$cpuShares" --network "$bridged" "$rol" /bin/bash
             ;;
-            
+
         esac
 
         echo "Docker Create: Docker container for $USER of $rol created" >> /var/log/rbac/docker.log
