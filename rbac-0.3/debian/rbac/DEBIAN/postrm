@@ -1,0 +1,15 @@
+#!/bin/bash
+
+systemctl stop dimoniRoot
+
+    systemctl disable dimoniRoot
+    rm /lib/systemd/system/dimoniRoot.service
+
+
+echo "Dimoni root stopped"
+
+systemctl stop dimoniMail
+    systemctl disable dimoniMail
+    rm /lib/systemd/system/dimoniMail.service
+
+echo "Dimoni mail stopped"

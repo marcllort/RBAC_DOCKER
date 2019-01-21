@@ -1,0 +1,226 @@
+#!/bin/bash
+
+
+#FUNCIONS
+
+function creaDaemonEntorn()
+{
+    systemctl stop dimoniRoot
+    systemctl disable dimoniRoot
+    rm /lib/systemd/system/dimoniRoot.service
+    systemctl daemon-reloadg
+    systemctl reset-failed
+
+    cat <<EOT >> /lib/systemd/system/dimoniRoot.service
+    [Unit]
+    Description=daemon root service
+    After=network.target
+    [Service]
+    Type=simple
+    Restart=always
+    RestartSec=5
+    ExecStart=/data/users/config/escolta.sh
+    [Install]
+    WantedBy=multi-user.target
+EOT
+
+    systemctl start dimoniRoot
+    systemctl enable dimoniRoot
+}
+
+function creaDaemonMail()
+{
+    systemctl stop dimoniMail
+    systemctl disable dimoniMail
+    rm /lib/systemd/system/dimoniMail.service
+    systemctl daemon-reload
+    systemctl reset-failed
+
+    cat <<EOT >> /lib/systemd/system/dimoniMail.service
+    [Unit]
+    Description=daemon mail service
+    After=network.target
+    [Service]
+    User=root
+    Type=simple
+    Restart=always
+    RestartSec=5
+    ExecStart=/data/users/config/repMail.sh
+    [Install]
+    WantedBy=multi-user.target
+EOT
+
+    systemctl start dimoniMail
+    systemctl enable dimoniMail
+}
+
+function creaConfigs()
+{
+    cp /usr/bin/rbac/rbac_dir/enviroment /data/users/config/
+    chmod 755 /data/users/config/enviroment
+    cp /usr/bin/rbac/rbac_dir/escolta.sh /data/users/config/
+    chmod 755 /data/users/config/escolta.sh
+    cp /usr/bin/rbac/rbac_dir/.envia.sh /data/users/config/
+    chmod 755 /data/users/config/.envia.sh
+    cp /usr/bin/rbac/rbac_dir/repMail.sh /data/users/config/
+    chmod 755 /data/users/config/repMail.sh
+    cp /usr/bin/rbac/rbac_dir/gestioEntorn /data/users/config/
+    chmod 755 /data/users/config/gestioEntorn
+    cp /usr/bin/rbac/rbac_dir/removeEnviroment /data/users/config/
+    chmod 755 /data/users/config/removeEnviroment
+
+
+    cd /data/users/config
+    
+    cat <<EOT > datastore
+
+    /etc/skel
+    0
+    0
+    x
+    x
+    x
+    0.5
+    512
+    50m
+    100m
+EOT
+
+    cat <<EOT > visitor
+    bash,touch,mkdir,rm,ls,vim,nano
+    /etc/skel
+    1 day
+    1 day
+    x
+    x
+    visitor
+    0.75
+    512
+    150m
+    300m
+EOT
+
+    cat <<EOT > basic
+    bash,touch,mkdir,rm,ls,vim,nano,gcc,make,kill
+    /etc/skel
+    1 day
+    persistent
+    6000
+    30000
+    compartida
+    1
+    1024
+    200m
+    400m
+EOT
+
+    cat <<EOT > medium
+    bash,touch,mkdir,rm,ls,vim,nano,gcc,make,kill,java,ln,ps,python,pip,valgrind,grep,awk,sed
+    /etc/skel
+    1 day
+    persistent
+    6000
+    30000
+    compartida
+    1.5
+    1536
+    500m
+    1g
+EOT
+
+    #cal afegir dos mes al advanced
+
+    cat <<EOT > advanced
+    bash,touch,mkdir,rm,ls,vim,nano,gcc,make,kill,java,ln,ps,python3,pip,valgrind,grep,awk,sed,chmod,chown,strace,cat,mv,rm,rmdir,clear
+    /etc/skel
+    persistent
+    persistent
+    6000
+    30000
+    compartida
+    2
+    2048
+    750m
+    1.5g
+EOT
+}
+
+function creaFitxerBase()
+{
+    cd /data/users
+    cat <<EOT > configuracio
+    /data/users/config
+    30000
+    30000
+    mac12llm@gmail.com  
+    /data/docker
+    user.info
+    
+EOT
+} 
+
+
+function creaSSH()
+{
+    mkdir -p /data/users/config/ssh/$admin/
+    cat <<EOT > /data/users/config/ssh/$admin/authorized_keys
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSVBbuiFnNig/DOY5hbV+XjDAaSwEv/+JXpWK/CyyjRrYmLbUG1SzYqoqs5GnX2QBUf1zVBrCvnFcos37uAHXQpeTXnnMi1wzREO7mW6XTRt4TY3rusPwuQkcD3+RT14Xm5f9Nw1wY0fDAy5wBAoCe8ir4VUkWWBkaeQ4Mb0Wh2ecspwgg5I4nY24qJIhX01DqEvzP1LQY8/lKn57HUmzFLpRQipfNDcx/4krGdgIeDdwJv8vOK03o8razVMKs11Af+lhcHsBWwDSFgo1owfsvdMLQX9THy9XqpgvQXC7rAr9C/99eXcBPizAKIpnxytjiU3pIAV/ZTTsT7v3RHnq5 alexalmansa@alex.local
+
+EOT
+
+    chmod 755 /data/users/config/ssh
+    chmod 755 /data/users/config/ssh/authorized_keys
+}
+
+
+
+#CONSTANTS
+
+userhome="$1"
+#admin="alex"
+admin="$1"
+#SCRIPT
+
+#Afegim grups dels diferents rols
+groupadd datastore
+groupadd visitor
+groupadd basic
+groupadd medium
+groupadd advanced
+
+rm -rf /data/users/config
+mkdir -p /data/users/config/googleauth
+
+#Crea el fitxer de configuracio que te el mail i direccio
+creaFitxerBase
+
+#Crea els diferents fitxers de configuració per cada grup, i copia els programes necessaris
+creaConfigs
+
+#Crea el dimoni encarregat de executar els borrats de usuaris, homes i entorns
+creaDaemonEntorn
+
+#Crea el dimoni encarregat d'enviar el mail amb el request command
+creaDaemonMail
+
+creaSSH
+
+mkdir /var/log/rbac
+
+touch /var/log/rbac/docker.log
+chmod 666 /var/log/rbac/docker.log
+touch /var/log/rbac/user.log
+chmod 666 /var/log/rbac/user.log
+touch /var/log/rbac/request.log
+chmod 666 /var/log/rbac/request.log
+
+
+echo "Copiant fitxers"
+cp -r /usr/bin/rbac/rbac_dir/.bashrc /etc/skel
+cp -r /usr/bin/rbac/rbac_dir/sshd_config /etc/ssh
+cp -r /usr/bin/rbac/rbac_dir/sshd /etc/pam.d/
+
+cp -r /usr/bin/rbac/carpeta /data/
+
+echo "Restarting ssh service"
+service ssh restart

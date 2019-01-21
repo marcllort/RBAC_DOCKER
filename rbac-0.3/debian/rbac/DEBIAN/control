@@ -1,0 +1,11 @@
+Package: rbac
+Version: 0.3-1
+Architecture: all
+Maintainer: root <root@unknown>
+Installed-Size: 161
+Depends: debconf (>= 0.5) | debconf-2.0
+Section: unknown
+Priority: optional
+Homepage: <insert the upstream URL, if relevant>
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>

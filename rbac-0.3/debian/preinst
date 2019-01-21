@@ -1,0 +1,23 @@
+#!/bin/sh -e
+
+echo -n "Do you want to copy the files that are about to be overwrite? [Y/N] "
+
+read like
+
+case "$like" in
+    n*|N*)
+        echo "No"
+    ;;
+    y*|Y*)
+    echo "Where do you want to save them?"
+    read save
+    if [ -d "$save" ]; then
+	 echo "Copying files" && cp /etc/skel/.bashrc "$save/.bashrc" && cp /etc/ssh/sshd_config "$save/sshd_config" && cp /etc/pam.d/sshd "$save/sshd"
+	else
+
+	echo "The directory does not exist, directory created " && mkdir  "$save" && cp /etc/skel/.bashrc "$save/.bashrc" && cp /etc/ssh/sshd_config "$save/sshd_config" && cp /etc/pam.d/sshd "$save/sshd"
+	fi
+    ;;
+
+
+esac

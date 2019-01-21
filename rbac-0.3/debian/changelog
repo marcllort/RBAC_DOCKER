@@ -1,0 +1,5 @@
+rbac (0.3-1) unstable; urgency=medium
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- root <root@unknown>  Sun, 13 Jan 2019 19:00:02 +0000
