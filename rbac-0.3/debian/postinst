@@ -221,5 +221,9 @@ cp -r /usr/bin/rbac_dir/sshd_config /etc/ssh
 cp -r /usr/bin/rbac_dir/sshd /etc/pam.d/
 
 cp -r /usr/bin/carpeta /data/
+
+docker network create -d bridge compartida
+
 echo "Restarting ssh service"
+
 service ssh restart
